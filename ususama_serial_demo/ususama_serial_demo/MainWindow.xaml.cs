@@ -54,7 +54,8 @@ namespace ususama_serial_demo
 
     private static void OnTimedEvent(Object source, ElapsedEventArgs e)
     {
-      ususama.demo(tmp_i++, 10);
+      tmp_i++;
+      ususama.Demo(1907997, 10);
       Console.Write("send {0}, ", tmp_i);
     }
     private static void OnTimedEvent2(Object source, ElapsedEventArgs e)

@@ -17,12 +17,12 @@ namespace ususama_serial
     {
       byte[] buffer = UsusamaProtocol.ReceiveDataUntilHeader(my_interface);
       UsusamaProtocol.UsusamaData data_t = UsusamaProtocol.ProcessingReceivedData(buffer);
-      Console.WriteLine("received {0}, ", data_t.data);
-      //Console.WriteLine("{0}, {1}, {2}", data_t.data, data_t.reg, data_t.valid);
+      if(data_t.valid)
+        Console.WriteLine("received {0}, ", data_t.data);
       if (data_t.valid) register[data_t.reg] = data_t.data;
     }
 
-    public void demo(int data, byte reg)
+    public void Demo(int data, byte reg)
     {
       UsusamaProtocol.UsusamaData data_t;
       data_t.data = data;
