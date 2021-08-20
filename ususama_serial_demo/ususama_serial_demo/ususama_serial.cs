@@ -10,14 +10,15 @@ namespace ususama_serial
     private int[] register = new int[256];
     public UsusamaController()
     {
-      my_interface = new UsusamaSerial("COM5", 115200);
+      my_interface = new UsusamaSerial("COM11", 115200);
     }
 
     public void ReceiveData()
     {
       byte[] buffer = UsusamaProtocol.ReceiveDataUntilHeader(my_interface);
       UsusamaProtocol.UsusamaData data_t = UsusamaProtocol.ProcessingReceivedData(buffer);
-      Console.WriteLine("{0}, {1}, {2}", data_t.data, data_t.reg, data_t.valid);
+      Console.WriteLine("received {0}, ", data_t.data);
+      //Console.WriteLine("{0}, {1}, {2}", data_t.data, data_t.reg, data_t.valid);
       if (data_t.valid) register[data_t.reg] = data_t.data;
     }
 
@@ -206,7 +207,7 @@ namespace ususama_serial
     public UsusamaSerial(string port_name, int baud_rate)
     {
       port = new SerialPort(port_name, baud_rate, Parity.None, 8, StopBits.One);
-      port.ReadBufferSize = 32;
+      port.ReadBufferSize = 64;
       try
       {
         port.Open();
@@ -233,12 +234,19 @@ namespace ususama_serial
 
     public override byte ReadOneByteData()
     {
-      int data = port.ReadByte();
-      if (data < 0)
+      try
       {
-        return 0; // fault
+        int data = port.ReadByte();
+        if (data < 0)
+        {
+          return 0; // fault
+        }
+        return (byte)data;
       }
-      return (byte)data;
+      catch (System.IO.IOException e)
+      {
+        return 0;
+      }
     }
     public override void ReadBytes(byte[] buffer, int size)
     {

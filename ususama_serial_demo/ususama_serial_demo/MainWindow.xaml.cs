@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Timers;
 using ususama_serial;
 
 namespace ususama_serial_demo
@@ -21,25 +22,55 @@ namespace ususama_serial_demo
   /// </summary>
   public partial class MainWindow : Window
   {
-    public UsusamaController ususama;
+    public static UsusamaController ususama;
+    private static System.Timers.Timer aTimer;
+    private static System.Timers.Timer aTimer2;
 
     public MainWindow()
     {
       InitializeComponent();
     }
 
+    private static void SetTimer()
+    {
+      // Create a timer with a two second interval.
+      aTimer = new System.Timers.Timer(500);
+      // Hook up the Elapsed event for the timer. 
+      aTimer.Elapsed += OnTimedEvent;
+      aTimer.AutoReset = true;
+      aTimer.Enabled = true;
+    }
+    private static void SetTimer2()
+    {
+      // Create a timer with a two second interval.
+      aTimer2 = new System.Timers.Timer(50);
+      // Hook up the Elapsed event for the timer. 
+      aTimer2.Elapsed += OnTimedEvent2;
+      aTimer2.AutoReset = true;
+      aTimer2.Enabled = true;
+    }
+
+    private static int tmp_i = 0;
+
+    private static void OnTimedEvent(Object source, ElapsedEventArgs e)
+    {
+      ususama.demo(tmp_i++, 10);
+      Console.Write("send {0}, ", tmp_i);
+    }
+    private static void OnTimedEvent2(Object source, ElapsedEventArgs e)
+    {
+      ususama.ReceiveData();
+    }
+
     private void button_Click(object sender, RoutedEventArgs e)
     {
       ususama = new UsusamaController();
+      SetTimer();
     }
 
     private void button_Copy_Click(object sender, RoutedEventArgs e)
     {
-      for (int i = 0; i < 30; i++)
-      {
-        ususama.demo(i*100, 10);
-        ususama.ReceiveData();
-      }
+      SetTimer2();
     }
 
     private void button2_Click(object sender, RoutedEventArgs e)
