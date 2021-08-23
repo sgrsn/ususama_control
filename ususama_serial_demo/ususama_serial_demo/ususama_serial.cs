@@ -8,6 +8,7 @@ namespace ususama_serial
   {
     private UsusamaInterface my_interface;
     private int[] register = new int[25];
+
     public UsusamaController()
     {
       my_interface = new UsusamaSerial("COM6", 115200);

@@ -24,7 +24,6 @@ namespace ususama_serial_demo
   {
     public static UsusamaController ususama;
     private static System.Timers.Timer aTimer;
-    private static System.Timers.Timer aTimer2;
 
     public MainWindow()
     {
@@ -34,49 +33,58 @@ namespace ususama_serial_demo
     private static void SetTimer()
     {
       // Create a timer with a two second interval.
-      aTimer = new System.Timers.Timer(500);
+      aTimer = new System.Timers.Timer(50);
       // Hook up the Elapsed event for the timer. 
       aTimer.Elapsed += OnTimedEvent;
       aTimer.AutoReset = true;
       aTimer.Enabled = true;
-    }
-    private static void SetTimer2()
-    {
-      // Create a timer with a two second interval.
-      aTimer2 = new System.Timers.Timer(50);
-      // Hook up the Elapsed event for the timer. 
-      aTimer2.Elapsed += OnTimedEvent2;
-      aTimer2.AutoReset = true;
-      aTimer2.Enabled = true;
     }
 
     private static int tmp_i = 0;
 
     private static void OnTimedEvent(Object source, ElapsedEventArgs e)
     {
-      tmp_i++;
-      ususama.Demo(tmp_i, 10);
-      Console.Write("send {0}, ", tmp_i);
-    }
-    private static void OnTimedEvent2(Object source, ElapsedEventArgs e)
-    {
       ususama.ReceiveData();
+      // to do
+      command_x_reply_textblock.Text = ususama.
     }
 
-    private void button_Click(object sender, RoutedEventArgs e)
+    private void connect_button_Click(object sender, RoutedEventArgs e)
     {
       ususama = new UsusamaController();
+    }
+
+    private void read_start_button_Click(object sender, RoutedEventArgs e)
+    {
       SetTimer();
     }
 
-    private void button_Copy_Click(object sender, RoutedEventArgs e)
+    private void write_start_button_Click(object sender, RoutedEventArgs e)
     {
-      SetTimer2();
+
     }
 
-    private void button2_Click(object sender, RoutedEventArgs e)
+    private void disconnect_button_Click(object sender, RoutedEventArgs e)
     {
       ususama.CloseInterface();
     }
+
+    private void move_button_Click(object sender, RoutedEventArgs e)
+    {
+      float x = Convert.ToSingle(x_textBox.Text);
+      float y = Convert.ToSingle(y_textBox.Text);
+      float theta = Convert.ToSingle(theta_textBox.Text);
+      ususama.SendRefPose(x, y, theta);
+    }
+    private void go_button_Click(object sender, RoutedEventArgs e)
+    {
+      ususama.Move();
+    }
+
+    private void stop_button_Click(object sender, RoutedEventArgs e)
+    {
+      ususama.Stop();
+    }
+
   }
 }
