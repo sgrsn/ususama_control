@@ -13,28 +13,72 @@ namespace ususama_serial
       my_interface = new UsusamaSerial("COM6", 115200);
     }
 
+    // 推奨:タイマ割り込みなどで一定時間ごとに呼び出すこと
+    // 受信割り込みはこわいのでやめておく
     public void ReceiveData()
     {
       byte[] buffer = UsusamaProtocol.ReceiveDataUntilHeader(my_interface);
       UsusamaProtocol.UsusamaData data_t = UsusamaProtocol.ProcessingReceivedData(buffer);
-      if(data_t.valid)
-        Console.WriteLine("received {0}, {1}", data_t.reg, data_t.data);
-      if (data_t.valid) register[data_t.reg] = data_t.data;
+      if (data_t.valid)
+      {
+        register[data_t.reg] = data_t.data;
+      }
     }
 
-    public void Demo(int data, byte reg)
+    // 目的姿勢を送る
+    // マイコンはこれを受信すると次の指令までREPLY_POSE_X,Y,THETAに同じ値を返してくる
+    // ちゃんと受信されたか返信を確認してからMove()で移動を許可するとよい
+    public void SendRefPose(float x, float y, float theta)
     {
       UsusamaProtocol.UsusamaData data_t;
-      data_t.data = data;
+
+      data_t.data = UsusamaProtocol.EncodeFloat2Int(x);
       data_t.reg = UsusamaProtocol.COMMAND_POSE_X;
       data_t.valid = true;
       UsusamaProtocol.SendPacketData(my_interface, data_t);
-      data_t.data = data;
+
+      data_t.data = UsusamaProtocol.EncodeFloat2Int(y);
       data_t.reg = UsusamaProtocol.COMMAND_POSE_Y;
       data_t.valid = true;
       UsusamaProtocol.SendPacketData(my_interface, data_t);
-      data_t.data = data;
+
+      data_t.data = UsusamaProtocol.EncodeFloat2Int(theta);
       data_t.reg = UsusamaProtocol.COMMAND_POSE_THETA;
+      data_t.valid = true;
+      UsusamaProtocol.SendPacketData(my_interface, data_t);
+    }
+
+    // 目的姿勢への移動を許可する
+    // マイコンはこれを受信すると次の指令までREPLY_STATE_X,Y,THETAに現在の姿勢を返してくる
+    public void Move()
+    {
+      UsusamaProtocol.UsusamaData data_t;
+      data_t.data = 1;
+      data_t.reg = UsusamaProtocol.COMMAND_MOVE;
+      data_t.valid = true;
+      UsusamaProtocol.SendPacketData(my_interface, data_t);
+    }
+
+    // 移動を停止させる, 緊急停止の場合など
+    // 再開はMove()を使用
+    // ホームへ戻す場合は先にSendRefPose()してからMove()する
+    // マイコンはこれを受信すると次の指令までREPLY_STATE_X,Y,THETAに現在の姿勢を返してくる
+    public void Stop()
+    {
+      UsusamaProtocol.UsusamaData data_t;
+      data_t.data = 1;
+      data_t.reg = UsusamaProtocol.COMMAND_STOP;
+      data_t.valid = true;
+      UsusamaProtocol.SendPacketData(my_interface, data_t);
+    }
+
+    // Stopを解除する
+    // Moveだけでも大丈夫
+    public void ReleaseStop()
+    {
+      UsusamaProtocol.UsusamaData data_t;
+      data_t.data = 0;
+      data_t.reg = UsusamaProtocol.COMMAND_STOP;
       data_t.valid = true;
       UsusamaProtocol.SendPacketData(my_interface, data_t);
     }
@@ -63,11 +107,20 @@ namespace ususama_serial
     public const byte REPLY_POSE_Y = 0x06;
     public const byte REPLY_POSE_THETA = 0x07;
     public const byte REPLY_STOP = 0x08;
+
+    public const byte REPLY_STATE_X = 0x010;
+    public const byte REPLY_STATE_Y = 0x011;
+    public const byte REPLY_STATE_THETA = 0x12;
     public struct UsusamaData
     {
       public int data;
       public byte reg;
       public bool valid;
+    }
+
+    public static int EncodeFloat2Int(float value)
+    {
+      return (int)(value * 1000);
     }
 
     public static void SendPacketData(UsusamaInterface my_interface, UsusamaData data_t)
@@ -82,8 +135,6 @@ namespace ususama_serial
 
       List<byte> buffer_w = new List<byte>();
 
-      //my_interface.SendByteData(HEAD_BYTE);
-      //my_interface.SendByteData(data_t.reg);
       buffer_w.Add(HEAD_BYTE);
       buffer_w.Add(data_t.reg);
 
@@ -92,22 +143,18 @@ namespace ususama_serial
       {
         if ((dataBytes[i] == ESCAPE_BYTE) || (dataBytes[i] == HEAD_BYTE))
         {
-          //my_interface.SendByteData(ESCAPE_BYTE);
           buffer_w.Add(ESCAPE_BYTE);
           checksum += ESCAPE_BYTE;
-          //my_interface.SendByteData((byte)((int)dataBytes[i] ^ (int)ESCAPE_MASK));
           buffer_w.Add((byte)((int)dataBytes[i] ^ (int)ESCAPE_MASK));
           checksum += (byte)((int)dataBytes[i] ^ (int)ESCAPE_MASK);
         }
         else
         {
-          //my_interface.SendByteData(dataBytes[i]);
           buffer_w.Add(dataBytes[i]);
           checksum += dataBytes[i];
         }
       }
       // 末尾にチェックサムを追加で送信する
-      //my_interface.SendByteData(checksum);
       buffer_w.Add(checksum);
       int size = buffer_w.Count - 1;
       buffer_w.Insert(1, (byte)size);
@@ -132,7 +179,6 @@ namespace ususama_serial
         if (size < buffer.Length)
         {
           my_interface.ReadBytes(buffer, size);
-          //ProcessingReceivedData(buffer, size);
         }
         return buffer;
       }
