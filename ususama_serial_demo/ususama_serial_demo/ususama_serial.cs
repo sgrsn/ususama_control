@@ -7,10 +7,10 @@ namespace ususama_serial
   public class UsusamaController
   {
     private UsusamaInterface my_interface;
-    private int[] register = new int[256];
+    private int[] register = new int[25];
     public UsusamaController()
     {
-      my_interface = new UsusamaSerial("COM11", 115200);
+      my_interface = new UsusamaSerial("COM6", 115200);
     }
 
     public void ReceiveData()
@@ -18,7 +18,7 @@ namespace ususama_serial
       byte[] buffer = UsusamaProtocol.ReceiveDataUntilHeader(my_interface);
       UsusamaProtocol.UsusamaData data_t = UsusamaProtocol.ProcessingReceivedData(buffer);
       if(data_t.valid)
-        Console.WriteLine("received {0}, ", data_t.data);
+        Console.WriteLine("received {0}, {1}", data_t.reg, data_t.data);
       if (data_t.valid) register[data_t.reg] = data_t.data;
     }
 
@@ -26,7 +26,15 @@ namespace ususama_serial
     {
       UsusamaProtocol.UsusamaData data_t;
       data_t.data = data;
-      data_t.reg = reg;
+      data_t.reg = UsusamaProtocol.COMMAND_POSE_X;
+      data_t.valid = true;
+      UsusamaProtocol.SendPacketData(my_interface, data_t);
+      data_t.data = data;
+      data_t.reg = UsusamaProtocol.COMMAND_POSE_Y;
+      data_t.valid = true;
+      UsusamaProtocol.SendPacketData(my_interface, data_t);
+      data_t.data = data;
+      data_t.reg = UsusamaProtocol.COMMAND_POSE_THETA;
       data_t.valid = true;
       UsusamaProtocol.SendPacketData(my_interface, data_t);
     }
@@ -43,6 +51,18 @@ namespace ususama_serial
     private const byte ESCAPE_BYTE = 0x1E;
     private const byte ESCAPE_MASK = 0x1F;
 
+    public const byte COMMAND_MOVE = 0x04;
+    public const byte COMMAND_POSE_X = 0x05;
+    public const byte COMMAND_POSE_Y = 0x06;
+    public const byte COMMAND_POSE_THETA = 0x07;
+
+    public const byte COMMAND_STOP = 0x08;
+
+    public const byte REPLY_MOVE = 0x04;
+    public const byte REPLY_POSE_X = 0x05;
+    public const byte REPLY_POSE_Y = 0x06;
+    public const byte REPLY_POSE_THETA = 0x07;
+    public const byte REPLY_STOP = 0x08;
     public struct UsusamaData
     {
       public int data;
