@@ -7,7 +7,7 @@ namespace ususama_serial
   public class UsusamaController
   {
     private UsusamaInterface my_interface;
-    private int[] register = new int[25];
+    public int[] register = new int[25];
 
     public UsusamaController()
     {
@@ -104,9 +104,9 @@ namespace ususama_serial
     public const byte COMMAND_STOP = 0x08;
 
     public const byte REPLY_MOVE = 0x04;
-    public const byte REPLY_POSE_X = 0x05;
-    public const byte REPLY_POSE_Y = 0x06;
-    public const byte REPLY_POSE_THETA = 0x07;
+    public const byte REPLY_COMMAND_X = 0x05;
+    public const byte REPLY_COMMAND_Y = 0x06;
+    public const byte REPLY_COMMAND_THETA = 0x07;
     public const byte REPLY_STOP = 0x08;
 
     public const byte REPLY_STATE_X = 0x010;
@@ -139,7 +139,7 @@ namespace ususama_serial
       buffer_w.Add(HEAD_BYTE);
       buffer_w.Add(data_t.reg);
 
-      byte checksum = 0;
+      byte checksum = data_t.reg;
       for (int i = 0; i < 4; ++i)
       {
         if ((dataBytes[i] == ESCAPE_BYTE) || (dataBytes[i] == HEAD_BYTE))

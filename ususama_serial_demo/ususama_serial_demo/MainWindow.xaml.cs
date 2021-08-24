@@ -24,10 +24,12 @@ namespace ususama_serial_demo
   {
     public static UsusamaController ususama;
     private static System.Timers.Timer aTimer;
+    public static MainWindow mainWindow = (MainWindow)App.Current.MainWindow;
 
     public MainWindow()
     {
       InitializeComponent();
+      
     }
 
     private static void SetTimer()
@@ -45,8 +47,22 @@ namespace ususama_serial_demo
     private static void OnTimedEvent(Object source, ElapsedEventArgs e)
     {
       ususama.ReceiveData();
-      // to do
-      command_x_reply_textblock.Text = ususama.
+      //UpdateTextBlock();
+      Console.WriteLine("{0}, {1}, {2}, ",
+        ususama.register[UsusamaProtocol.REPLY_COMMAND_X],
+        ususama.register[UsusamaProtocol.REPLY_COMMAND_Y],
+        ususama.register[UsusamaProtocol.REPLY_COMMAND_THETA]
+      );
+    }
+
+    private static void UpdateTextBlock()
+    {
+        mainWindow.command_x_reply_textblock.Text = ususama.register[UsusamaProtocol.REPLY_COMMAND_X].ToString();
+        mainWindow.command_y_reply_textblock.Text = ususama.register[UsusamaProtocol.REPLY_COMMAND_Y].ToString();
+        mainWindow.command_theta_reply_textblock.Text = ususama.register[UsusamaProtocol.REPLY_COMMAND_THETA].ToString();
+        mainWindow.state_x_textblock.Text = ususama.register[UsusamaProtocol.REPLY_STATE_X].ToString();
+        mainWindow.state_y_textblock.Text = ususama.register[UsusamaProtocol.REPLY_STATE_Y].ToString();
+        mainWindow.state_theta_textblock.Text = ususama.register[UsusamaProtocol.REPLY_STATE_THETA].ToString();
     }
 
     private void connect_button_Click(object sender, RoutedEventArgs e)
