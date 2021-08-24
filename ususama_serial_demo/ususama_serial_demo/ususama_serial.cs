@@ -9,6 +9,16 @@ namespace ususama_serial
     private UsusamaInterface my_interface;
     public int[] register = new int[25];
 
+    public struct MoveCommand_t
+    {
+      public float x;
+      public float y;
+      public float theta;
+      public bool enable;
+    }; 
+
+    public MoveCommand_t move_commmand_reply;
+
     public UsusamaController()
     {
       my_interface = new UsusamaSerial("COM6", 115200);
@@ -23,6 +33,22 @@ namespace ususama_serial
       if (data_t.valid)
       {
         register[data_t.reg] = data_t.data;
+
+        switch(data_t.reg)
+        {
+          case UsusamaProtocol.REPLY_MOVE:
+            move_commmand_reply.enable = Convert.ToBoolean(data_t);
+            break;
+          case UsusamaProtocol.REPLY_COMMAND_X:
+            move_commmand_reply.x = UsusamaProtocol.DecodeInt2Float(data_t.data);
+            break;
+          case UsusamaProtocol.REPLY_COMMAND_Y:
+            move_commmand_reply.y = UsusamaProtocol.DecodeInt2Float(data_t.data);
+            break;
+          case UsusamaProtocol.REPLY_COMMAND_THETA:
+            move_commmand_reply.theta = UsusamaProtocol.DecodeInt2Float(data_t.data);
+            break;
+        }
       }
     }
 
@@ -122,6 +148,10 @@ namespace ususama_serial
     public static int EncodeFloat2Int(float value)
     {
       return (int)(value * 1000);
+    }
+    public static float DecodeInt2Float(int value)
+    {
+      return ((float)value) / 1000;
     }
 
     public static void SendPacketData(UsusamaInterface my_interface, UsusamaData data_t)

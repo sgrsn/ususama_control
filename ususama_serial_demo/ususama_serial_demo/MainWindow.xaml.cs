@@ -42,16 +42,15 @@ namespace ususama_serial_demo
       aTimer.Enabled = true;
     }
 
-    private static int tmp_i = 0;
-
     private static void OnTimedEvent(Object source, ElapsedEventArgs e)
     {
       ususama.ReceiveData();
       //UpdateTextBlock();
-      Console.WriteLine("{0}, {1}, {2}, ",
-        ususama.register[UsusamaProtocol.REPLY_COMMAND_X],
-        ususama.register[UsusamaProtocol.REPLY_COMMAND_Y],
-        ususama.register[UsusamaProtocol.REPLY_COMMAND_THETA]
+      Console.WriteLine("{0}, {1}, {2}, {3}",
+        ususama.move_commmand_reply.x,
+        ususama.move_commmand_reply.y,
+        ususama.move_commmand_reply.theta,
+        ususama.move_commmand_reply.enable
       );
     }
 
