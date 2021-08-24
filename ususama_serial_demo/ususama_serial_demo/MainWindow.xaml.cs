@@ -35,7 +35,7 @@ namespace ususama_serial_demo
     private static void SetTimer()
     {
       // Create a timer with a two second interval.
-      aTimer = new System.Timers.Timer(50);
+      aTimer = new System.Timers.Timer(10);
       // Hook up the Elapsed event for the timer. 
       aTimer.Elapsed += OnTimedEvent;
       aTimer.AutoReset = true;
@@ -46,11 +46,10 @@ namespace ususama_serial_demo
     {
       ususama.ReceiveData();
       //UpdateTextBlock();
-      Console.WriteLine("{0}, {1}, {2}, {3}",
-        ususama.move_commmand_reply.x,
-        ususama.move_commmand_reply.y,
-        ususama.move_commmand_reply.theta,
-        ususama.move_commmand_reply.enable
+      Console.WriteLine("{0}, {1}, {2}",
+        ususama.current_pose_reply.x,
+        ususama.current_pose_reply.y,
+        ususama.current_pose_reply.theta
       );
     }
 

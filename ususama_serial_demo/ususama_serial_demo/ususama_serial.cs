@@ -7,7 +7,7 @@ namespace ususama_serial
   public class UsusamaController
   {
     private UsusamaInterface my_interface;
-    public int[] register = new int[25];
+    public int[] register = new int[0x30];
 
     public struct MoveCommand_t
     {
@@ -15,13 +15,21 @@ namespace ususama_serial
       public float y;
       public float theta;
       public bool enable;
-    }; 
+    };
+
+    public struct CuurentPose_t
+    {
+      public float x;
+      public float y;
+      public float theta;
+    };
 
     public MoveCommand_t move_commmand_reply;
+    public CuurentPose_t current_pose_reply;
 
     public UsusamaController()
     {
-      my_interface = new UsusamaSerial("COM6", 115200);
+      my_interface = new UsusamaSerial("COM3", 115200);
     }
 
     // 推奨:タイマ割り込みなどで一定時間ごとに呼び出すこと
@@ -47,6 +55,15 @@ namespace ususama_serial
             break;
           case UsusamaProtocol.REPLY_COMMAND_THETA:
             move_commmand_reply.theta = UsusamaProtocol.DecodeInt2Float(data_t.data);
+            break;
+          case UsusamaProtocol.REPLY_STATE_X:
+            current_pose_reply.x = UsusamaProtocol.DecodeInt2Float(data_t.data);
+            break;
+          case UsusamaProtocol.REPLY_STATE_Y:
+            current_pose_reply.y = UsusamaProtocol.DecodeInt2Float(data_t.data);
+            break;
+          case UsusamaProtocol.REPLY_STATE_THETA:
+            current_pose_reply.theta = UsusamaProtocol.DecodeInt2Float(data_t.data);
             break;
         }
       }
@@ -138,6 +155,8 @@ namespace ususama_serial
     public const byte REPLY_STATE_X = 0x010;
     public const byte REPLY_STATE_Y = 0x011;
     public const byte REPLY_STATE_THETA = 0x12;
+
+    public const byte DEBUG_CONSOLE = 0x20;
     public struct UsusamaData
     {
       public int data;
