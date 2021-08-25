@@ -29,7 +29,6 @@ namespace ususama_serial_demo
     public MainWindow()
     {
       InitializeComponent();
-      
     }
 
     private static void SetTimer()
@@ -52,16 +51,6 @@ namespace ususama_serial_demo
         ususama.current_pose_reply.theta,
         ususama.move_commmand_reply.reached
       );
-    }
-
-    private static void UpdateTextBlock()
-    {
-        mainWindow.command_x_reply_textblock.Text = ususama.register[UsusamaProtocol.REPLY_COMMAND_X].ToString();
-        mainWindow.command_y_reply_textblock.Text = ususama.register[UsusamaProtocol.REPLY_COMMAND_Y].ToString();
-        mainWindow.command_theta_reply_textblock.Text = ususama.register[UsusamaProtocol.REPLY_COMMAND_THETA].ToString();
-        mainWindow.state_x_textblock.Text = ususama.register[UsusamaProtocol.REPLY_STATE_X].ToString();
-        mainWindow.state_y_textblock.Text = ususama.register[UsusamaProtocol.REPLY_STATE_Y].ToString();
-        mainWindow.state_theta_textblock.Text = ususama.register[UsusamaProtocol.REPLY_STATE_THETA].ToString();
     }
 
     private void connect_button_Click(object sender, RoutedEventArgs e)
