@@ -28,6 +28,9 @@ namespace ususama_serial
     public MoveReply_t move_commmand_reply;
     public CuurentPose_t current_pose_reply;
 
+    public bool stop_command_reply;
+    public bool move_command_correct = false;
+
     public UsusamaController()
     {
       my_interface = new UsusamaSerial("COM3", 115200);
@@ -47,6 +50,10 @@ namespace ususama_serial
         {
           case UsusamaProtocol.REPLY_MOVE:
             move_commmand_reply.reached = Convert.ToBoolean(data_t.data);
+            move_command_correct = true;
+            break;
+          case UsusamaProtocol.REPLY_STOP:
+            stop_command_reply = Convert.ToBoolean(data_t.data);
             break;
           case UsusamaProtocol.REPLY_COMMAND_X:
             move_commmand_reply.x = UsusamaProtocol.DecodeInt2Float(data_t.data);
@@ -93,15 +100,30 @@ namespace ususama_serial
       UsusamaProtocol.SendPacketData(my_interface, data_t);
     }
 
+    public bool IsCommandPoseCorrect(float x, float y, float theta)
+    {
+      bool correct = true;
+      correct &= Math.Abs(move_commmand_reply.x - x) < 0.001;
+      correct &= Math.Abs(move_commmand_reply.y - y) < 0.001;
+      correct &= Math.Abs(move_commmand_reply.theta - theta) < 0.001;
+      return correct;
+    }
+
     // 目的姿勢への移動を許可する
     // マイコンはこれを受信すると次の指令までREPLY_STATE_X,Y,THETAに現在の姿勢を返してくる
     public void Move()
     {
+      move_command_correct = false;
       UsusamaProtocol.UsusamaData data_t;
       data_t.data = 1;
       data_t.reg = UsusamaProtocol.COMMAND_MOVE;
       data_t.valid = true;
       UsusamaProtocol.SendPacketData(my_interface, data_t);
+    }
+
+    public bool IsMoveCommandCorrect()
+    {
+      return move_command_correct;
     }
 
     public bool IsReachedGoal()

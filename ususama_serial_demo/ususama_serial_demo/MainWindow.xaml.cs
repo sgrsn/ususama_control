@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Timers;
 using ususama_serial;
+using ususama_routes;
 
 namespace ususama_serial_demo
 {
@@ -25,12 +26,46 @@ namespace ususama_serial_demo
     public static UsusamaController ususama;
     private static System.Timers.Timer aTimer;
     public static MainWindow mainWindow = (MainWindow)App.Current.MainWindow;
+    private static UsusamaRoutes my_routes = new UsusamaRoutes();
 
     public MainWindow()
     {
       InitializeComponent();
     }
 
+    // Step 0: シリアル接続、受信タイマーの設定
+    public static void Setup()
+    {
+      ususama = new UsusamaController();
+      SetTimer();
+    }
+
+    // タスク(複数の移動を1つのタスクとする)たち
+    private void step1_button_Click(object sender, RoutedEventArgs e) { RunSequence(my_routes.move_seq_test); }
+    private void step2_button_Click(object sender, RoutedEventArgs e) { RunSequence(my_routes.move_seq_2); }
+    private void step3_button_Click(object sender, RoutedEventArgs e) { RunSequence(my_routes.move_seq_3); }
+    private void step4_button_Click(object sender, RoutedEventArgs e) { RunSequence(my_routes.move_seq_4); }
+    private void step5_button_Click(object sender, RoutedEventArgs e) { RunSequence(my_routes.move_seq_5); }
+
+    // 目標姿勢に移動する関数
+    public static async void RunSequence(List<Pose2D> routes)
+    {
+      foreach (Pose2D ref_pose in routes)
+      {
+        if (ref_pose.state == CleanState.Move)
+        {
+          ususama.SendRefPose(ref_pose.x, ref_pose.y, ref_pose.theta);
+          await Task.Delay(1000);
+          ususama.Move();
+          await Task.Delay(1000);
+          while (!ususama.IsReachedGoal())
+          {
+            await Task.Delay(10);
+          };
+        }
+      }
+      Console.WriteLine("Seq completed");
+    }
     private static void SetTimer()
     {
       // Create a timer with a two second interval.
@@ -44,13 +79,12 @@ namespace ususama_serial_demo
     private static void OnTimedEvent(Object source, ElapsedEventArgs e)
     {
       ususama.ReceiveData();
-      //UpdateTextBlock();
-      Console.WriteLine("{0}, {1}, {2}, {3}",
+      /*Console.WriteLine("{0}, {1}, {2}, {3}",
         ususama.current_pose_reply.x,
         ususama.current_pose_reply.y,
         ususama.current_pose_reply.theta,
         ususama.move_commmand_reply.reached
-      );
+      );*/
     }
 
     private void connect_button_Click(object sender, RoutedEventArgs e)
@@ -85,6 +119,5 @@ namespace ususama_serial_demo
     {
       ususama.Stop();
     }
-
   }
 }

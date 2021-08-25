@@ -10,21 +10,26 @@
     <Button x:Name="connect_button" Content="Connect" HorizontalAlignment="Left" Margin="90,78,0,0" VerticalAlignment="Top" Width="75" Click="connect_button_Click"/>
     <Button x:Name="read_start_button" Content="Read Start" HorizontalAlignment="Left" Margin="90,129,0,0" VerticalAlignment="Top" Width="75" Click="read_start_button_Click"/>
     <Button x:Name="disconnect_button" Content="Disconnect" HorizontalAlignment="Left" Margin="620,29,0,0" VerticalAlignment="Top" Width="75" Click="disconnect_button_Click"/>
-    <TextBox x:Name="x_textBox" HorizontalAlignment="Left" Height="23" Margin="302,222,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
-    <TextBox x:Name="y_textBox" HorizontalAlignment="Left" Height="23" Margin="302,262,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
-    <TextBox x:Name="theta_textBox" HorizontalAlignment="Left" Height="23" Margin="302,303,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
-    <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="266,223,0,0" TextWrapping="Wrap" Text="x" VerticalAlignment="Top" Width="21"/>
-    <TextBlock x:Name="textBlock_Copy" HorizontalAlignment="Left" Margin="266,263,0,0" TextWrapping="Wrap" Text="y" VerticalAlignment="Top" Width="21"/>
-    <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" Margin="259,304,0,0" TextWrapping="Wrap" Text="theta" VerticalAlignment="Top" Width="28"/>
-    <Button x:Name="move_button" Content="Send Pose" HorizontalAlignment="Left" Margin="302,144,0,0" VerticalAlignment="Top" Width="75" Click="move_button_Click"/>
-    <Button x:Name="stop_button" Content="Stop" HorizontalAlignment="Left" Margin="505,169,0,0" VerticalAlignment="Top" Width="75" Click="stop_button_Click"/>
-    <TextBlock x:Name="command_x_reply_textblock" HorizontalAlignment="Left" Margin="440,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="0"/><LineBreak/><Run/></TextBlock>
-    <TextBlock x:Name="command_y_reply_textblock" HorizontalAlignment="Left" Margin="440,263,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="0"/><LineBreak/><Run/></TextBlock>
-    <TextBlock x:Name="command_theta_reply_textblock" HorizontalAlignment="Left" Margin="440,307,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="0"/><LineBreak/><Run/></TextBlock>
-    <Button x:Name="go_button" Content="Go" HorizontalAlignment="Left" Margin="302,180,0,0" VerticalAlignment="Top" Width="75" Click="go_button_Click"/>
-    <TextBlock x:Name="state_x_textblock" HorizontalAlignment="Left" Margin="476,226,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top"/>
-    <TextBlock x:Name="state_y_textblock" HorizontalAlignment="Left" Margin="476,263,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top"/>
-    <TextBlock x:Name="state_theta_textblock" HorizontalAlignment="Left" Margin="476,307,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top"/>
+    <TextBox x:Name="x_textBox" HorizontalAlignment="Left" Height="23" Margin="85,276,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
+    <TextBox x:Name="y_textBox" HorizontalAlignment="Left" Height="23" Margin="85,316,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
+    <TextBox x:Name="theta_textBox" HorizontalAlignment="Left" Height="23" Margin="85,358,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
+    <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="49,278,0,0" TextWrapping="Wrap" Text="x" VerticalAlignment="Top" Width="21"/>
+    <TextBlock x:Name="textBlock_Copy" HorizontalAlignment="Left" Margin="49,318,0,0" TextWrapping="Wrap" Text="y" VerticalAlignment="Top" Width="21"/>
+    <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" Margin="42,358,0,0" TextWrapping="Wrap" Text="theta" VerticalAlignment="Top" Width="28"/>
+    <Button x:Name="move_button" Content="Send Pose" HorizontalAlignment="Left" Margin="48,190,0,0" VerticalAlignment="Top" Width="75" Click="move_button_Click" RenderTransformOrigin="0.101,0.643"/>
+    <Button x:Name="stop_button" Content="Stop" HorizontalAlignment="Left" Margin="149,233,0,0" VerticalAlignment="Top" Width="75" Click="stop_button_Click"/>
+    <TextBlock x:Name="command_x_reply_textblock" HorizontalAlignment="Left" Margin="223,280,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="0"/><LineBreak/><Run/></TextBlock>
+    <TextBlock x:Name="command_y_reply_textblock" HorizontalAlignment="Left" Margin="223,318,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="0"/><LineBreak/><Run/></TextBlock>
+    <TextBlock x:Name="command_theta_reply_textblock" HorizontalAlignment="Left" Margin="223,362,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="0"/><LineBreak/><Run/></TextBlock>
+    <Button x:Name="go_button" Content="Go" HorizontalAlignment="Left" Margin="48,233,0,0" VerticalAlignment="Top" Width="75" Click="go_button_Click"/>
+    <TextBlock x:Name="state_x_textblock" HorizontalAlignment="Left" Margin="259,280,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top"/>
+    <TextBlock x:Name="state_y_textblock" HorizontalAlignment="Left" Margin="259,318,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top"/>
+    <TextBlock x:Name="state_theta_textblock" HorizontalAlignment="Left" Margin="259,362,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top"/>
+    <Button x:Name="step1_button" Content="Step1" HorizontalAlignment="Left" Margin="389,117,0,0" VerticalAlignment="Top" Width="75" Click="step1_button_Click"/>
+    <Button x:Name="step2_button" Content="Step2" HorizontalAlignment="Left" Margin="389,158,0,0" VerticalAlignment="Top" Width="75" Click="step2_button_Click"/>
+    <Button x:Name="step3_button" Content="Step3" HorizontalAlignment="Left" Margin="389,195,0,0" VerticalAlignment="Top" Width="75" Click="step3_button_Click"/>
+    <Button x:Name="step4_button" Content="Step4" HorizontalAlignment="Left" Margin="389,233,0,0" VerticalAlignment="Top" Width="75" Click="step4_button_Click"/>
+    <Button x:Name="step5_button" Content="Step5" HorizontalAlignment="Left" Margin="389,274,0,0" VerticalAlignment="Top" Width="75" Click="step5_button_Click"/>
 
   </Grid>
 </Window>
