@@ -8,9 +8,8 @@
         Title="MainWindow" Height="450" Width="800">
   <Grid>
     <Button x:Name="connect_button" Content="Connect" HorizontalAlignment="Left" Margin="90,78,0,0" VerticalAlignment="Top" Width="75" Click="connect_button_Click"/>
-    <Button x:Name="read_start_button" Content="Read Start" HorizontalAlignment="Left" Margin="137,132,0,0" VerticalAlignment="Top" Width="75" Click="read_start_button_Click"/>
-    <Button x:Name="write_start_button" Content="Write Start" HorizontalAlignment="Left" Margin="137,195,0,0" VerticalAlignment="Top" Width="75" Click="write_start_button_Click"/>
-    <Button x:Name="disconnect_button" Content="Disconnect" HorizontalAlignment="Left" Margin="205,78,0,0" VerticalAlignment="Top" Width="75" Click="disconnect_button_Click"/>
+    <Button x:Name="read_start_button" Content="Read Start" HorizontalAlignment="Left" Margin="90,129,0,0" VerticalAlignment="Top" Width="75" Click="read_start_button_Click"/>
+    <Button x:Name="disconnect_button" Content="Disconnect" HorizontalAlignment="Left" Margin="620,29,0,0" VerticalAlignment="Top" Width="75" Click="disconnect_button_Click"/>
     <TextBox x:Name="x_textBox" HorizontalAlignment="Left" Height="23" Margin="302,222,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
     <TextBox x:Name="y_textBox" HorizontalAlignment="Left" Height="23" Margin="302,262,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
     <TextBox x:Name="theta_textBox" HorizontalAlignment="Left" Height="23" Margin="302,303,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>

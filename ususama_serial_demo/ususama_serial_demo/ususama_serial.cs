@@ -9,12 +9,12 @@ namespace ususama_serial
     private UsusamaInterface my_interface;
     public int[] register = new int[0x30];
 
-    public struct MoveCommand_t
+    public struct MoveReply_t
     {
       public float x;
       public float y;
       public float theta;
-      public bool enable;
+      public bool reached;
     };
 
     public struct CuurentPose_t
@@ -24,7 +24,8 @@ namespace ususama_serial
       public float theta;
     };
 
-    public MoveCommand_t move_commmand_reply;
+
+    public MoveReply_t move_commmand_reply;
     public CuurentPose_t current_pose_reply;
 
     public UsusamaController()
@@ -45,7 +46,7 @@ namespace ususama_serial
         switch(data_t.reg)
         {
           case UsusamaProtocol.REPLY_MOVE:
-            move_commmand_reply.enable = Convert.ToBoolean(data_t);
+            move_commmand_reply.reached = Convert.ToBoolean(data_t.data);
             break;
           case UsusamaProtocol.REPLY_COMMAND_X:
             move_commmand_reply.x = UsusamaProtocol.DecodeInt2Float(data_t.data);
@@ -103,6 +104,11 @@ namespace ususama_serial
       UsusamaProtocol.SendPacketData(my_interface, data_t);
     }
 
+    public bool IsReachedGoal()
+    {
+      return move_commmand_reply.reached;
+    }
+
     // 移動を停止させる, 緊急停止の場合など
     // 再開はMove()を使用
     // ホームへ戻す場合は先にSendRefPose()してからMove()する
@@ -117,7 +123,6 @@ namespace ususama_serial
     }
 
     // Stopを解除する
-    // Moveだけでも大丈夫
     public void ReleaseStop()
     {
       UsusamaProtocol.UsusamaData data_t;

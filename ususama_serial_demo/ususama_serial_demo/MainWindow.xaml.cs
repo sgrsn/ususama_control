@@ -46,10 +46,11 @@ namespace ususama_serial_demo
     {
       ususama.ReceiveData();
       //UpdateTextBlock();
-      Console.WriteLine("{0}, {1}, {2}",
+      Console.WriteLine("{0}, {1}, {2}, {3}",
         ususama.current_pose_reply.x,
         ususama.current_pose_reply.y,
-        ususama.current_pose_reply.theta
+        ususama.current_pose_reply.theta,
+        ususama.move_commmand_reply.reached
       );
     }
 
@@ -73,11 +74,6 @@ namespace ususama_serial_demo
       SetTimer();
     }
 
-    private void write_start_button_Click(object sender, RoutedEventArgs e)
-    {
-
-    }
-
     private void disconnect_button_Click(object sender, RoutedEventArgs e)
     {
       ususama.CloseInterface();
@@ -92,6 +88,7 @@ namespace ususama_serial_demo
     }
     private void go_button_Click(object sender, RoutedEventArgs e)
     {
+      ususama.ReleaseStop();
       ususama.Move();
     }
 
