@@ -34,8 +34,8 @@ namespace ususama_routes
     public UsusamaRoutes()
     {
       // テスト用
-      move_seq_test.Add(new Pose2D(1000f / 1000, 0000f / 1000, 0.00f, CleanState.Move));
-      move_seq_test.Add(new Pose2D(1000f / 1000, 800f / 1000, 0.00f, CleanState.Move));
+      move_seq_test.Add(new Pose2D(500f / 1000, 0000f / 1000, 0.00f, CleanState.Move));
+      move_seq_test.Add(new Pose2D(1000f / 1000, 500f / 1000, 0.00f, CleanState.Move));
       move_seq_test.Add(new Pose2D(0000f / 1000, 0000f / 1000, 0.00f, CleanState.Move));
 
       // seq1: ゴミ1(仮に芯とする)をゴミ箱に入れるタスク

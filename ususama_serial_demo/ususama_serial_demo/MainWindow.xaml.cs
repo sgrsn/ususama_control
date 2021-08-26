@@ -25,12 +25,13 @@ namespace ususama_serial_demo
   {
     public static UsusamaController ususama;
     private static System.Timers.Timer aTimer;
-    public static MainWindow mainWindow = (MainWindow)App.Current.MainWindow;
+    //public static MainWindow mainWindow;
     private static UsusamaRoutes my_routes = new UsusamaRoutes();
 
     public MainWindow()
     {
       InitializeComponent();
+      //mainWindow = (MainWindow)App.Current.MainWindow;
     }
 
     // Step 0: シリアル接続、受信タイマーの設定
