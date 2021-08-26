@@ -60,6 +60,7 @@
     </ApplicationDefinition>
     <Compile Include="ususama_routes.cs" />
     <Compile Include="ususama_serial.cs" />
+    <Compile Include="ususama_serial_control.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

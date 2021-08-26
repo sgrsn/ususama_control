@@ -14,7 +14,6 @@ namespace ususama_serial
       public float x;
       public float y;
       public float theta;
-      public bool reached;
     };
 
     public struct CuurentPose_t
@@ -27,9 +26,9 @@ namespace ususama_serial
 
     public MoveReply_t move_commmand_reply;
     public CuurentPose_t current_pose_reply;
+    public UsusamaProtocol.RobotState robot_state_reply;
 
     public bool stop_command_reply;
-    public bool move_command_correct = false;
 
     public UsusamaController()
     {
@@ -48,9 +47,11 @@ namespace ususama_serial
 
         switch(data_t.reg)
         {
+          case UsusamaProtocol.REPLY_ROBOT_STATE:
+            robot_state_reply = (UsusamaProtocol.RobotState)data_t.data;
+            Console.WriteLine("{0}, {1}", data_t.reg, data_t.data);
+            break;
           case UsusamaProtocol.REPLY_MOVE:
-            move_commmand_reply.reached = Convert.ToBoolean(data_t.data);
-            move_command_correct = true;
             break;
           case UsusamaProtocol.REPLY_STOP:
             stop_command_reply = Convert.ToBoolean(data_t.data);
@@ -110,10 +111,10 @@ namespace ususama_serial
     }
 
     // 目的姿勢への移動を許可する
-    // マイコンはこれを受信すると次の指令までREPLY_STATE_X,Y,THETAに現在の姿勢を返してくる
+    // マイコンはこれを受信すると次の指令までREPLY_MOVEに到達したかどうか
+    // REPLY_STATE_X,Y,THETAに現在の姿勢を返してくる
     public void Move()
     {
-      move_command_correct = false;
       UsusamaProtocol.UsusamaData data_t;
       data_t.data = 1;
       data_t.reg = UsusamaProtocol.COMMAND_MOVE;
@@ -121,20 +122,23 @@ namespace ususama_serial
       UsusamaProtocol.SendPacketData(my_interface, data_t);
     }
 
-    public bool IsMoveCommandCorrect()
+    public bool IsMoving()
     {
-      return move_command_correct;
+      return (robot_state_reply == UsusamaProtocol.RobotState.Move);
     }
-
-    public bool IsReachedGoal()
+    public bool IsReached()
     {
-      return move_commmand_reply.reached;
+      return (robot_state_reply == UsusamaProtocol.RobotState.Reach);
+    }
+    public bool IsStoping()
+    {
+      return (robot_state_reply == UsusamaProtocol.RobotState.Stop);
     }
 
     // 移動を停止させる, 緊急停止の場合など
     // 再開はMove()を使用
     // ホームへ戻す場合は先にSendRefPose()してからMove()する
-    // マイコンはこれを受信すると次の指令までREPLY_STATE_X,Y,THETAに現在の姿勢を返してくる
+    // マイコンはこれを受信すると次の指令までREPLY_STOPに同じコマンドを返してくる
     public void Stop()
     {
       UsusamaProtocol.UsusamaData data_t;
@@ -173,6 +177,7 @@ namespace ususama_serial
 
     public const byte COMMAND_STOP = 0x08;
 
+    public const byte REPLY_ROBOT_STATE = 0x03;
     public const byte REPLY_MOVE = 0x04;
     public const byte REPLY_COMMAND_X = 0x05;
     public const byte REPLY_COMMAND_Y = 0x06;
@@ -184,6 +189,15 @@ namespace ususama_serial
     public const byte REPLY_STATE_THETA = 0x12;
 
     public const byte DEBUG_CONSOLE = 0x20;
+
+    public enum RobotState
+    {
+      Start = 0,
+      Wait = 1,
+      Move = 2,
+      Reach = 3,
+      Stop = 4,
+    }
     public struct UsusamaData
     {
       public int data;
