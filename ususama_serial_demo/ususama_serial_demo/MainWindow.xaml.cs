@@ -30,10 +30,10 @@ namespace ususama_serial_demo
     }
 
     // タスク(複数の移動を1つのタスクとする)たち
-    private async void step1_button_Click(object sender, RoutedEventArgs e) { await UsusamaManager.RunSequenceWithStop(UsusamaManager.task_routes.move_seq_test); }
-    private void step2_button_Click(object sender, RoutedEventArgs e) {  }
-    private void step3_button_Click(object sender, RoutedEventArgs e) {  }
-    private void step4_button_Click(object sender, RoutedEventArgs e) { }
+    private async void step1_button_Click(object sender, RoutedEventArgs e) { await UsusamaManager.RunSequenceWithStop(UsusamaManager.task_routes.move_seq_1); }
+    private async void step2_button_Click(object sender, RoutedEventArgs e) { await UsusamaManager.RunSequenceWithStop(UsusamaManager.task_routes.move_seq_2); }
+    private async void step3_button_Click(object sender, RoutedEventArgs e) { await UsusamaManager.RunSequenceWithStop(UsusamaManager.task_routes.move_seq_3); }
+    private async void step4_button_Click(object sender, RoutedEventArgs e) { await UsusamaManager.RunSequenceWithStop(UsusamaManager.task_routes.move_seq_4); }
     private void step5_button_Click(object sender, RoutedEventArgs e) {  }
     private async void return_button_Click(object sender, RoutedEventArgs e) { await UsusamaManager.ReturnHome(); }
     private void connect_button_Click(object sender, RoutedEventArgs e) { UsusamaManager.Setup(); }

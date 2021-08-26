@@ -35,32 +35,32 @@ namespace ususama_routes
     {
       // テスト用
       move_seq_test.Add(new Pose2D(000f / 1000, 0000f / 1000, 0.00f, CleanState.Move));
-      move_seq_test.Add(new Pose2D(500f / 1000, 0000f / 1000, 0.00f, CleanState.Move));
-      move_seq_test.Add(new Pose2D(1000f / 1000, 500f / 1000, 0.00f, CleanState.Move));
+      move_seq_test.Add(new Pose2D(000f / 1000, 0000f / 1000, 1.57f, CleanState.Move));
+      move_seq_test.Add(new Pose2D(000f / 1000, 0000f / 1000, 0.00f, CleanState.Move));
       //move_seq_test.Add(new Pose2D(0000f / 1000, 0000f / 1000, 0.00f, CleanState.Move));
 
       // seq1: ゴミ1(仮に芯とする)をゴミ箱に入れるタスク
-      move_seq_1.Add(new Pose2D(1500f / 1000, 000f / 1000, 0.00f, CleanState.Move)); // まっすぐ進む 芯回収
-      move_seq_1.Add(new Pose2D(1500f / 1000, 000f / 1000, 1.57f, CleanState.Move)); // 90deg 旋回
-      move_seq_1.Add(new Pose2D(1500f / 1000, 900f / 1000, 1.57f, CleanState.Move)); // ゴミ箱に芯を入れる
+      move_seq_1.Add(new Pose2D(1200f / 1000, 000f / 1000, 0.00f, CleanState.Move)); // まっすぐ進む 芯回収
+      move_seq_1.Add(new Pose2D(1200f / 1000, 000f / 1000, 1.57f, CleanState.Move)); // 90deg 旋回
+      move_seq_1.Add(new Pose2D(1200f / 1000, 800f / 1000, 1.57f, CleanState.Move)); // ゴミ箱に芯を入れる
 
       // seq2: 便器前の床を掃除するタスク
-      move_seq_2.Add(new Pose2D(1450f / 1000, 450f / 1000, 1.57f, CleanState.Move)); // トイレの前に移動
-      move_seq_2.Add(new Pose2D(1450f / 1000, 450f / 1000, 3.14f, CleanState.Move)); // トイレ正面となるように旋回
-      //move_seq_2.Add(new Pose2D(1300f / 1000, 450f / 1000, 3.14f, CleanState.Move)); // トイレに近づく
-      //move_seq_2.Add(new Pose2D(1300f / 1000, 450f / 1000, 3.14f, CleanState.Clean));  // 床掃除
+      move_seq_2.Add(new Pose2D(1200f / 1000, 450f / 1000, 1.57f, CleanState.Move)); // トイレの前に移動
+      move_seq_2.Add(new Pose2D(1200f / 1000, 450f / 1000, 3.14f, CleanState.Move)); // トイレ正面となるように旋回
+      move_seq_2.Add(new Pose2D(1100f / 1000, 450f / 1000, 3.14f, CleanState.Move)); // トイレに近づく
+      move_seq_2.Add(new Pose2D(1100f / 1000, 450f / 1000, 3.14f, CleanState.Clean));  // 床掃除
 
       // seq3: 便器を掃除するタスク
-      //move_seq_3.Add(new Pose2D(1080f / 1000, 450f / 1000, 3.14f, CleanState.Move)); // トイレに近づく
-      //move_seq_3.Add(new Pose2D(1080f / 1000, 450f / 1000, 3.14f, CleanState.Clean)); // 便器掃除
+      move_seq_3.Add(new Pose2D(1100f / 1000, 450f / 1000, 3.14f, CleanState.Move)); // トイレに近づく
+      move_seq_3.Add(new Pose2D(1100f / 1000, 450f / 1000, 3.14f, CleanState.Clean)); // 便器掃除
 
       // seq4: ゴミ2(仮に紙コップとする)をゴミ箱に入れるタスク
-      move_seq_4.Add(new Pose2D(1300f / 1000, 450f / 1000, 3.14f, CleanState.Move)); // 後ろに下がる
-      move_seq_4.Add(new Pose2D(1300f / 1000, 450f / 1000, 2.35f, CleanState.Move)); // 紙コップに向かう
+      move_seq_4.Add(new Pose2D(1200f / 1000, 450f / 1000, 3.14f, CleanState.Move)); // 後ろに下がる
+      move_seq_4.Add(new Pose2D(1200f / 1000, 450f / 1000, 2.35f, CleanState.Move)); // 紙コップに向かう
       move_seq_4.Add(new Pose2D(1050f / 1000, 600f / 1000, 2.35f, CleanState.Move)); // 紙コップ回収のため斜め移動
       move_seq_4.Add(new Pose2D(1050f / 1000, 600f / 1000, 2.00f, CleanState.Move)); // ゴミ箱に入れるため旋回
-      move_seq_4.Add(new Pose2D(1300f / 1000, 600f / 1000, 2.00f, CleanState.Move)); // 便器にぶつからないようにまっすぐ移動
-      move_seq_4.Add(new Pose2D(1300f / 1000, 600f / 1000, 1.57f, CleanState.Move)); // ゴミ箱に向きなおす
+      move_seq_4.Add(new Pose2D(1200f / 1000, 600f / 1000, 2.00f, CleanState.Move)); // 便器にぶつからないようにまっすぐ移動
+      move_seq_4.Add(new Pose2D(1200f / 1000, 600f / 1000, 1.57f, CleanState.Move)); // ゴミ箱に向きなおす
       move_seq_4.Add(new Pose2D(1300f / 1000, 700f / 1000, 1.57f, CleanState.Move)); // ゴミ箱に紙コップを入れる
 
       // seq5: ホームに戻るタスク

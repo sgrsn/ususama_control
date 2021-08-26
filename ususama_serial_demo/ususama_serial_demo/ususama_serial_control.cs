@@ -247,11 +247,10 @@ namespace ususama_serial
     private static void OnTimedEvent(Object source, ElapsedEventArgs e)
     {
       ususama.ReceiveData();
-      /*Console.WriteLine("{0}, {1}, {2}, {3}",
+      /*Console.WriteLine("{0}, {1}, {2}",
         ususama.current_pose_reply.x,
         ususama.current_pose_reply.y,
-        ususama.current_pose_reply.theta,
-        ususama.move_commmand_reply.reached
+        ususama.current_pose_reply.theta
       );*/
     }
 
