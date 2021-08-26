@@ -2,7 +2,7 @@
 
 ## 実行画面
 
-![MainWindow](https://github.com/sgrsn/ususama_control/tree/feature/OpenRCF/images/MainWindow.png)
+![MainWindow](https://github.com/sgrsn/ususama_control/tree/feature/OpenRCF/images/MainWindow.jpg)
 
 - Connect
 
