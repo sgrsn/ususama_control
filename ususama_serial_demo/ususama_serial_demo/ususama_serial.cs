@@ -49,7 +49,7 @@ namespace ususama_serial
         {
           case UsusamaProtocol.REPLY_ROBOT_STATE:
             robot_state_reply = (UsusamaProtocol.RobotState)data_t.data;
-            Console.WriteLine("{0}, {1}", data_t.reg, data_t.data);
+            //Console.WriteLine("       {0}:{1}", data_t.reg, data_t.data);
             break;
           case UsusamaProtocol.REPLY_MOVE:
             break;
@@ -130,7 +130,7 @@ namespace ususama_serial
     {
       return (robot_state_reply == UsusamaProtocol.RobotState.Reach);
     }
-    public bool IsStoping()
+    public bool IsStopping()
     {
       return (robot_state_reply == UsusamaProtocol.RobotState.Stop);
     }
@@ -140,6 +140,14 @@ namespace ususama_serial
     // ホームへ戻す場合は先にSendRefPose()してからMove()する
     // マイコンはこれを受信すると次の指令までREPLY_STOPに同じコマンドを返してくる
     public void Stop()
+    {
+      UsusamaProtocol.UsusamaData data_t;
+      data_t.data = 0;
+      data_t.reg = UsusamaProtocol.COMMAND_MOVE;
+      data_t.valid = true;
+      UsusamaProtocol.SendPacketData(my_interface, data_t);
+    }
+    public void _Stop()
     {
       UsusamaProtocol.UsusamaData data_t;
       data_t.data = 1;
