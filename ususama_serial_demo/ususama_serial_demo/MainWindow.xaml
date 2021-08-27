@@ -17,7 +17,7 @@
     <TextBlock x:Name="textBlock_Copy" HorizontalAlignment="Left" Margin="49,318,0,0" TextWrapping="Wrap" Text="y" VerticalAlignment="Top" Width="21"/>
     <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" Margin="42,358,0,0" TextWrapping="Wrap" Text="theta" VerticalAlignment="Top" Width="28"/>
     <Button x:Name="move_button" Content="Send Pose" HorizontalAlignment="Left" Margin="48,190,0,0" VerticalAlignment="Top" Width="75" Click="move_button_Click" RenderTransformOrigin="0.101,0.643"/>
-    <Button x:Name="stop_button" Content="Stop" HorizontalAlignment="Left" Margin="154,233,0,0" VerticalAlignment="Top" Width="75" Click="stop_button_Click"/>
+    <Button x:Name="stop_button" Content="Stop" HorizontalAlignment="Left" Margin="259,158,0,0" VerticalAlignment="Top" Width="75" Click="stop_button_Click"/>
     <TextBlock x:Name="command_x_reply_textblock" HorizontalAlignment="Left" Margin="223,280,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="0"/><LineBreak/><Run/></TextBlock>
     <TextBlock x:Name="command_y_reply_textblock" HorizontalAlignment="Left" Margin="223,318,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="0"/><LineBreak/><Run/></TextBlock>
     <TextBlock x:Name="command_theta_reply_textblock" HorizontalAlignment="Left" Margin="223,362,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="0"/><LineBreak/><Run/></TextBlock>
@@ -31,6 +31,7 @@
     <Button x:Name="step4_button" Content="Step4" HorizontalAlignment="Left" Margin="389,233,0,0" VerticalAlignment="Top" Width="75" Click="step4_button_Click"/>
     <Button x:Name="step5_button" Content="Step5" HorizontalAlignment="Left" Margin="389,274,0,0" VerticalAlignment="Top" Width="75" Click="step5_button_Click"/>
     <Button x:Name="return_button" Content="Return Home" HorizontalAlignment="Left" Margin="539,149,0,0" VerticalAlignment="Top" Width="75" Click="return_button_Click"/>
+    <Button x:Name="release_button" Content="Release" HorizontalAlignment="Left" Margin="259,200,0,0" VerticalAlignment="Top" Width="75" Click="release_button_Click"/>
 
   </Grid>
 </Window>

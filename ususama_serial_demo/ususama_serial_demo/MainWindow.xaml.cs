@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Timers;
 using ususama_serial;
 using ususama_routes;
+using System.Windows.Automation.Peers;
 
 namespace ususama_serial_demo
 {
@@ -23,6 +24,7 @@ namespace ususama_serial_demo
   /// </summary>
   public partial class MainWindow : Window
   {
+    private Timer mytimer;
 
     public MainWindow()
     {
@@ -34,7 +36,11 @@ namespace ususama_serial_demo
     private async void step2_button_Click(object sender, RoutedEventArgs e) { await UsusamaManager.RunSequenceWithStop(UsusamaManager.task_routes.move_seq_2); }
     private async void step3_button_Click(object sender, RoutedEventArgs e) { await UsusamaManager.RunSequenceWithStop(UsusamaManager.task_routes.move_seq_3); }
     private async void step4_button_Click(object sender, RoutedEventArgs e) { await UsusamaManager.RunSequenceWithStop(UsusamaManager.task_routes.move_seq_4); }
-    private void step5_button_Click(object sender, RoutedEventArgs e) {  }
+
+    private void step5_button_Click(object sender, RoutedEventArgs e)
+    {
+      UsusamaManager.ResetOdometry();
+    }
     private async void return_button_Click(object sender, RoutedEventArgs e) { await UsusamaManager.RunSequenceWithStop(UsusamaManager.task_routes.home_seq); }
     private void connect_button_Click(object sender, RoutedEventArgs e) { UsusamaManager.Setup("COM7"); }
 
@@ -61,5 +67,9 @@ namespace ususama_serial_demo
       //ususama.Move();
     }
 
+    private void release_button_Click(object sender, RoutedEventArgs e)
+    {
+      UsusamaManager.ButtonRelease();
+    }
   }
 }

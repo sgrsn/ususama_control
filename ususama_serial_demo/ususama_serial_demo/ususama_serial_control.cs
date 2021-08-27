@@ -47,6 +47,12 @@ namespace ususama_serial
       SetTimer();
     }
 
+    public static void ResetOdometry()
+    {
+      // 待機処理はとりあえずなし
+      ususama.ResetOdometry();
+    }
+
     public static async Task RunSequenceWithStop(List<Pose2D> routes)
     {
       cts_stop = new CancellationTokenSource();
@@ -95,7 +101,7 @@ namespace ususama_serial
       var timer = new System.Timers.Timer();
       timer.Interval = 2000;
       timer.Enabled = true;
-      timer.Elapsed += new ElapsedEventHandler((object source, ElapsedEventArgs e) => { Console.WriteLine("cancel pose task "); cts.Cancel(); });
+      timer.Elapsed += new ElapsedEventHandler((object source, ElapsedEventArgs e) => { Console.WriteLine("cancel pose task "); cts.Cancel(); timer.Dispose(); });
       try
       {
         await SendRefposeAndWait(ref_pose, cts.Token);
@@ -129,7 +135,7 @@ namespace ususama_serial
       var timer = new System.Timers.Timer();
       timer.Interval = 2000;
       timer.Enabled = true;
-      timer.Elapsed += new ElapsedEventHandler((object source, ElapsedEventArgs e) => { Console.WriteLine("cancel move task"); cts.Cancel(); });
+      timer.Elapsed += new ElapsedEventHandler((object source, ElapsedEventArgs e) => { Console.WriteLine("cancel move task"); cts.Cancel(); timer.Dispose(); });
       try
       {
         await SendMoveAndWait(cts.Token);
@@ -163,7 +169,7 @@ namespace ususama_serial
       var timer = new System.Timers.Timer();
       timer.Interval = 30000; //さすがに30秒たったらリスタート
       timer.Enabled = true;
-      timer.Elapsed += new ElapsedEventHandler((object source, ElapsedEventArgs e) => { Console.WriteLine("cancel goal task"); cts.Cancel(); });
+      timer.Elapsed += new ElapsedEventHandler((object source, ElapsedEventArgs e) => { Console.WriteLine("cancel goal task"); cts.Cancel(); timer.Dispose(); });
       try
       {
         await WaitGoal(cts.Token);
@@ -221,6 +227,11 @@ namespace ususama_serial
         ct.ThrowIfCancellationRequested();
       };
       await Task.Delay(1000);
+    }
+
+    public static void ButtonRelease()
+    {
+      button = ButtonState.Released;
     }
 
     public static async Task ReturnHome()

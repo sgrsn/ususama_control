@@ -126,6 +126,15 @@ namespace ususama_serial
       UsusamaProtocol.SendPacketData(my_interface, data_t);
     }
 
+    public void ResetOdometry()
+    {
+      UsusamaProtocol.UsusamaData data_t;
+      data_t.data = 1;
+      data_t.reg = UsusamaProtocol.COMMAND_RESET_ODOMETRY;
+      data_t.valid = true;
+      UsusamaProtocol.SendPacketData(my_interface, data_t);
+    }
+
     public bool IsMoving()
     {
       return (robot_state_reply == UsusamaProtocol.RobotState.Move);
@@ -186,8 +195,8 @@ namespace ususama_serial
     public const byte COMMAND_POSE_X = 0x05;
     public const byte COMMAND_POSE_Y = 0x06;
     public const byte COMMAND_POSE_THETA = 0x07;
-
     public const byte COMMAND_STOP = 0x08;
+    public const byte COMMAND_RESET_ODOMETRY = 0x015;
 
     public const byte REPLY_ROBOT_STATE = 0x03;
     public const byte REPLY_MOVE = 0x04;
@@ -195,10 +204,10 @@ namespace ususama_serial
     public const byte REPLY_COMMAND_Y = 0x06;
     public const byte REPLY_COMMAND_THETA = 0x07;
     public const byte REPLY_STOP = 0x08;
-
     public const byte REPLY_STATE_X = 0x010;
     public const byte REPLY_STATE_Y = 0x011;
     public const byte REPLY_STATE_THETA = 0x12;
+    public const byte REPLY_RESET_ODOMETRY = 0x15;
 
     public const byte DEBUG_CONSOLE = 0x20;
 
@@ -209,6 +218,7 @@ namespace ususama_serial
       Move = 2,
       Reach = 3,
       Stop = 4,
+      Reset = 5,
     }
     public struct UsusamaData
     {
