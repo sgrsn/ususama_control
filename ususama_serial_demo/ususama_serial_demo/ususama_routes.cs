@@ -52,17 +52,16 @@ namespace ususama_routes
       // seq2: 便器前の床を掃除するタスク
       move_seq_2.Add(new Pose2D(1200f / 1000, 450f / 1000, 1.57f, CleanState.Move)); // トイレの前に移動
       move_seq_2.Add(new Pose2D(1200f / 1000, 450f / 1000, 3.14f, CleanState.Move)); // トイレ正面となるように旋回
-      move_seq_2.Add(new Pose2D(1100f / 1000, 450f / 1000, 3.14f, CleanState.Move)); // トイレに近づく
       move_seq_2.Add(new Pose2D(1100f / 1000, 450f / 1000, 3.14f, CleanState.Clean));  // 床掃除
 
       // seq3: 便器を掃除するタスク
-      move_seq_3.Add(new Pose2D(1100f / 1000, 450f / 1000, 3.14f, CleanState.Move)); // トイレに近づく
-      move_seq_3.Add(new Pose2D(1100f / 1000, 450f / 1000, 3.14f, CleanState.Clean)); // 便器掃除
+      move_seq_3.Add(new Pose2D(1000f / 1000, 450f / 1000, 3.14f, CleanState.Move)); // トイレに近づく
+      move_seq_3.Add(new Pose2D(1000f / 1000, 450f / 1000, 3.14f, CleanState.Clean)); // 便器掃除
 
       // seq4: ゴミ2(仮に紙コップとする)をゴミ箱に入れるタスク
       move_seq_4.Add(new Pose2D(1200f / 1000, 450f / 1000, 3.14f, CleanState.Move)); // 後ろに下がる
-      move_seq_4.Add(new Pose2D(1200f / 1000, 450f / 1000, 2.35f, CleanState.Move)); // 紙コップに向かう
-      move_seq_4.Add(new Pose2D(1050f / 1000, 600f / 1000, 2.35f, CleanState.Move)); // 紙コップ回収のため斜め移動
+      move_seq_4.Add(new Pose2D(1200f / 1000, 450f / 1000, 2.00f, CleanState.Move)); // 紙コップに向かう
+      move_seq_4.Add(new Pose2D(1050f / 1000, 600f / 1000, 2.00f, CleanState.Move)); // 紙コップ回収のため斜め移動
       move_seq_4.Add(new Pose2D(1050f / 1000, 600f / 1000, 2.00f, CleanState.Move)); // ゴミ箱に入れるため旋回
       move_seq_4.Add(new Pose2D(1200f / 1000, 600f / 1000, 2.00f, CleanState.Move)); // 便器にぶつからないようにまっすぐ移動
       move_seq_4.Add(new Pose2D(1200f / 1000, 600f / 1000, 1.57f, CleanState.Move)); // ゴミ箱に向きなおす

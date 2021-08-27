@@ -34,6 +34,10 @@ namespace ususama_serial
     {
       my_interface = new UsusamaSerial("COM7", 115200);
     }
+    public UsusamaController(String com_port)
+    {
+      my_interface = new UsusamaSerial(com_port, 115200);
+    }
 
     // 推奨:タイマ割り込みなどで一定時間ごとに呼び出すこと
     // 受信割り込みはこわいのでやめておく

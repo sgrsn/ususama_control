@@ -22,14 +22,18 @@ namespace ususama_serial
     public static UsusamaController ususama;
     private static System.Timers.Timer aTimer;
     public static UsusamaRoutes task_routes = new UsusamaRoutes();
+
+    // SendPose, Move, WaitGoal各タスクのタイムアウトに使用するCTS
     private static CancellationTokenSource cts;
+
+    // 停止ボタンが押されたときにOperationCanceledExceptionを発生させるCTS
     private static CancellationTokenSource cts_stop;
 
     public static List<Pose2D> completed_seq = new List<Pose2D>();
 
-    public static void Setup()
+    public static void Setup(String com_port)
     {
-      ususama = new UsusamaController();
+      ususama = new UsusamaController(com_port);
       SetTimer();
     }
 

@@ -36,7 +36,7 @@ namespace ususama_serial_demo
     private async void step4_button_Click(object sender, RoutedEventArgs e) { await UsusamaManager.RunSequenceWithStop(UsusamaManager.task_routes.move_seq_4); }
     private void step5_button_Click(object sender, RoutedEventArgs e) {  }
     private async void return_button_Click(object sender, RoutedEventArgs e) { await UsusamaManager.RunSequenceWithStop(UsusamaManager.task_routes.home_seq); }
-    private void connect_button_Click(object sender, RoutedEventArgs e) { UsusamaManager.Setup(); }
+    private void connect_button_Click(object sender, RoutedEventArgs e) { UsusamaManager.Setup("COM7"); }
 
     private async void stop_button_Click(object sender, RoutedEventArgs e) { await UsusamaManager.SendStopTask(); }
 
