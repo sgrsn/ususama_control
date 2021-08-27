@@ -62,6 +62,7 @@ namespace ususama_serial
       foreach (Pose2D ref_pose in routes)
       {
         Console.WriteLine("Run next task");
+        if (ref_pose.state == CleanState.Home) button = ButtonState.Released;
         if (ref_pose.state == CleanState.Move)
         {
           // 順に実行

@@ -32,7 +32,7 @@ namespace ususama_serial
 
     public UsusamaController()
     {
-      my_interface = new UsusamaSerial("COM3", 115200);
+      my_interface = new UsusamaSerial("COM7", 115200);
     }
 
     // 推奨:タイマ割り込みなどで一定時間ごとに呼び出すこと

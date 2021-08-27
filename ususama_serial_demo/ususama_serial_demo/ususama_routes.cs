@@ -8,6 +8,7 @@ namespace ususama_routes
     Move, // 台車の移動
     Stop, // 台車の停止
     Clean,// アームによる掃除
+    Home, // ホームに戻る
   };
   public class Pose2D
   {
@@ -31,17 +32,21 @@ namespace ususama_routes
     public List<Pose2D> move_seq_3 = new List<Pose2D>();
     public List<Pose2D> move_seq_4 = new List<Pose2D>();
     public List<Pose2D> move_seq_5 = new List<Pose2D>();
+    public List<Pose2D> home_seq = new List<Pose2D>();
     public UsusamaRoutes()
     {
       // テスト用
       move_seq_test.Add(new Pose2D(000f / 1000, 0000f / 1000, 0.00f, CleanState.Move));
       move_seq_test.Add(new Pose2D(000f / 1000, 0000f / 1000, 1.57f, CleanState.Move));
+      move_seq_test.Add(new Pose2D(000f / 1000, 0000f / 1000, 3.14f, CleanState.Move));
       move_seq_test.Add(new Pose2D(000f / 1000, 0000f / 1000, 0.00f, CleanState.Move));
+      move_seq_test.Add(new Pose2D(000f / 1000, 0000f / 1000, 1.57f, CleanState.Move));
+      move_seq_test.Add(new Pose2D(000f / 1000, 0000f / 1000, 3.14f, CleanState.Move));
       //move_seq_test.Add(new Pose2D(0000f / 1000, 0000f / 1000, 0.00f, CleanState.Move));
 
       // seq1: ゴミ1(仮に芯とする)をゴミ箱に入れるタスク
-      move_seq_1.Add(new Pose2D(1200f / 1000, 000f / 1000, 0.00f, CleanState.Move)); // まっすぐ進む 芯回収
-      move_seq_1.Add(new Pose2D(1200f / 1000, 000f / 1000, 1.57f, CleanState.Move)); // 90deg 旋回
+      move_seq_1.Add(new Pose2D(1000f / 1000, 000f / 1000, 0.00f, CleanState.Move)); // まっすぐ進む 芯回収
+      move_seq_1.Add(new Pose2D(1200f / 1000, 400f / 1000, 1.57f, CleanState.Move)); // 90deg 旋回
       move_seq_1.Add(new Pose2D(1200f / 1000, 800f / 1000, 1.57f, CleanState.Move)); // ゴミ箱に芯を入れる
 
       // seq2: 便器前の床を掃除するタスク
@@ -64,11 +69,11 @@ namespace ususama_routes
       move_seq_4.Add(new Pose2D(1300f / 1000, 700f / 1000, 1.57f, CleanState.Move)); // ゴミ箱に紙コップを入れる
 
       // seq5: ホームに戻るタスク
-      move_seq_5.Add(new Pose2D(1500f / 1000, 450f / 1000, 1.57f, CleanState.Move)); // 
-      move_seq_5.Add(new Pose2D(1500f / 1000, 450f / 1000, 3.90f, CleanState.Move)); // 
-      move_seq_5.Add(new Pose2D(1500f / 1000, 000f / 1000, 3.90f, CleanState.Move)); // 
-      move_seq_5.Add(new Pose2D(1500f / 1000, 000f / 1000, 1.57f, CleanState.Move)); // 向きなおす
-      move_seq_5.Add(new Pose2D(0000f / 1000, 000f / 1000, 1.57f, CleanState.Move)); // ホームに戻る
+      home_seq.Add(new Pose2D(0f, 0f, 0f, CleanState.Home)); // 
+      home_seq.Add(new Pose2D(1200f / 1000, 450f / 1000, 1.57f, CleanState.Move)); // 
+      home_seq.Add(new Pose2D(1200f / 1000, 000f / 1000, 1.57f, CleanState.Move)); // 
+      home_seq.Add(new Pose2D(1200f / 1000, 000f / 1000, 0.00f, CleanState.Move)); // 
+      home_seq.Add(new Pose2D(0000f / 1000, 000f / 1000, 0.00f, CleanState.Move)); // 
     }
   }
 }
