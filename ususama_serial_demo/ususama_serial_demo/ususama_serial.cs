@@ -30,10 +30,6 @@ namespace ususama_serial
 
     public bool stop_command_reply;
 
-    public UsusamaController()
-    {
-      my_interface = new UsusamaSerial("COM7", 115200);
-    }
     public UsusamaController(String com_port)
     {
       my_interface = new UsusamaSerial(com_port, 115200);

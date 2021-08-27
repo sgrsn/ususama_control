@@ -23,6 +23,7 @@ namespace ususama_serial
     private static System.Timers.Timer aTimer;
     public static UsusamaRoutes task_routes = new UsusamaRoutes();
     private static bool current_seq_completed = false;
+    private static string port_name = "";
 
     // SendPose, Move, WaitGoal各タスクのタイムアウトに使用するCTS
     private static CancellationTokenSource cts;
@@ -34,6 +35,7 @@ namespace ususama_serial
 
     public static void Setup(String com_port)
     {
+      port_name = com_port;
       ususama = new UsusamaController(com_port);
       SetTimer();
     }
@@ -44,7 +46,7 @@ namespace ususama_serial
       aTimer.Dispose();
       ususama.CloseInterface();
       //await Task.Delay(100);
-      ususama = new UsusamaController();
+      ususama = new UsusamaController(port_name);
       SetTimer();
     }
 
