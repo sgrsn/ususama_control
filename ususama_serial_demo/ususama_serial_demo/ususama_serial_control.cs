@@ -22,6 +22,7 @@ namespace ususama_serial
     public static UsusamaController ususama;
     private static System.Timers.Timer aTimer;
     public static UsusamaRoutes task_routes = new UsusamaRoutes();
+    private static bool current_seq_completed = false;
 
     // SendPose, Move, WaitGoal各タスクのタイムアウトに使用するCTS
     private static CancellationTokenSource cts;
@@ -53,6 +54,11 @@ namespace ususama_serial
       ususama.ResetOdometry();
     }
 
+    public static bool IsSeqCompleted()
+    {
+      return current_seq_completed;
+    }
+
     public static async Task RunSequenceWithStop(List<Pose2D> routes)
     {
       cts_stop = new CancellationTokenSource();
@@ -69,6 +75,7 @@ namespace ususama_serial
     // 目標姿勢に移動する関数
     public static async Task RunSequence(List<Pose2D> routes, CancellationToken ct)
     {
+      current_seq_completed = false;
       foreach (Pose2D ref_pose in routes)
       {
         Console.WriteLine("Run next task");
@@ -90,6 +97,7 @@ namespace ususama_serial
         }
       }
       Console.WriteLine("Seq completed");
+      current_seq_completed = true;
     }
 
     // 目標姿勢の送信
@@ -263,11 +271,11 @@ namespace ususama_serial
     private static void OnTimedEvent(Object source, ElapsedEventArgs e)
     {
       ususama.ReceiveData();
-      /*Console.WriteLine("{0}, {1}, {2}",
+      Console.WriteLine("{0}, {1}, {2}",
         ususama.current_pose_reply.x,
         ususama.current_pose_reply.y,
         ususama.current_pose_reply.theta
-      );*/
+      );
     }
 
     private static void Close()
