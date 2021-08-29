@@ -24,7 +24,6 @@ namespace ususama_serial_demo
   /// </summary>
   public partial class MainWindow : Window
   {
-    private Timer mytimer;
 
     public MainWindow()
     {

@@ -8,7 +8,6 @@ using System.Threading;
 
 namespace ususama_serial
 {
-
   public static class UsusamaManager
   {
     public enum ButtonState
@@ -21,32 +20,20 @@ namespace ususama_serial
 
     public static UsusamaController ususama;
     private static System.Timers.Timer aTimer;
+    private static System.Timers.Timer timeout_timer;
     public static UsusamaRoutes task_routes = new UsusamaRoutes();
     private static bool current_seq_completed = false;
     private static string port_name = "";
-
-    // SendPose, Move, WaitGoal各タスクのタイムアウトに使用するCTS
-    private static CancellationTokenSource cts;
 
     // 停止ボタンが押されたときにOperationCanceledExceptionを発生させるCTS
     private static CancellationTokenSource cts_stop;
 
     public static List<Pose2D> completed_seq = new List<Pose2D>();
 
-    public static void Setup(String com_port)
+    public static void Setup(string com_port)
     {
       port_name = com_port;
       ususama = new UsusamaController(com_port);
-      SetTimer();
-    }
-
-    public static void Resetup()
-    {
-      Console.WriteLine("Connection reset");
-      aTimer.Dispose();
-      ususama.CloseInterface();
-      //await Task.Delay(100);
-      ususama = new UsusamaController(port_name);
       SetTimer();
     }
 
@@ -103,36 +90,21 @@ namespace ususama_serial
     }
 
     // 目標姿勢の送信
-    // タイムアウトを2秒設定し、タイムアウトの場合再接続
     public static async Task SendPoseTask(Pose2D ref_pose)
     {
       Console.Write("   Pose task start... -> ");
-      cts = new CancellationTokenSource();
-      var timer = new System.Timers.Timer();
-      timer.Interval = 2000;
-      timer.Enabled = true;
-      timer.Elapsed += new ElapsedEventHandler((object source, ElapsedEventArgs e) => { Console.WriteLine("cancel pose task "); cts.Cancel(); timer.Dispose(); });
-      try
-      {
-        await SendRefposeAndWait(ref_pose, cts.Token);
-      }
-      catch (OperationCanceledException ce)
-      {
-        Resetup();
-      }
-      timer.Dispose();
+      await SendRefposeAndWait(ref_pose);
       await Task.Delay(100);
       Console.WriteLine("   Pose task end");
     }
 
-    public static async Task SendRefposeAndWait(Pose2D ref_pose, CancellationToken ct)
+    public static async Task SendRefposeAndWait(Pose2D ref_pose)
     {
       ususama.SendRefPose(ref_pose.x, ref_pose.y, ref_pose.theta);
       while (!ususama.IsCommandPoseCorrect(ref_pose.x, ref_pose.y, ref_pose.theta))
       {
         await Task.Delay(100);
         ususama.SendRefPose(ref_pose.x, ref_pose.y, ref_pose.theta);
-        ct.ThrowIfCancellationRequested();
         if (button == ButtonState.Pushed) { Console.Write("   stop (pose task)"); return; }
       };
       Console.WriteLine("Move to x:{0}, y:{1}, theta:{2}", ref_pose.x, ref_pose.y, ref_pose.theta);
@@ -141,32 +113,19 @@ namespace ususama_serial
     public static async Task SendMoveTask()
     {
       Console.Write("   Move task start... -> ");
-      cts = new CancellationTokenSource();
-      var timer = new System.Timers.Timer();
-      timer.Interval = 2000;
-      timer.Enabled = true;
-      timer.Elapsed += new ElapsedEventHandler((object source, ElapsedEventArgs e) => { Console.WriteLine("cancel move task"); cts.Cancel(); timer.Dispose(); });
-      try
-      {
-        await SendMoveAndWait(cts.Token);
-        if (button == ButtonState.Pushed) { Console.Write("   stop (move task)"); return; }
-      }
-      catch (OperationCanceledException ce)
-      {
-        Resetup();
-      }
-      timer.Dispose();
+      await SendMoveAndWait();
       await Task.Delay(1000);
       Console.WriteLine("   Move task end");
     }
-    public static async Task SendMoveAndWait(CancellationToken ct)
+    public static async Task SendMoveAndWait()
     {
       ususama.Move();
       while (!ususama.IsMoving())
       {
         await Task.Delay(100);
         ususama.Move();
-        ct.ThrowIfCancellationRequested();
+        if (button == ButtonState.Pushed) { Console.Write("   stop (move task)"); return; }
+        // すでにゴールしている可能性
         if (ususama.IsReached()) break;
       };
       await Task.Delay(100);
@@ -175,30 +134,16 @@ namespace ususama_serial
     public static async Task WaitGoalTask()
     {
       Console.Write("   Goal task start... -> ");
-      cts = new CancellationTokenSource();
-      var timer = new System.Timers.Timer();
-      timer.Interval = 30000; //さすがに30秒たったらリスタート
-      timer.Enabled = true;
-      timer.Elapsed += new ElapsedEventHandler((object source, ElapsedEventArgs e) => { Console.WriteLine("cancel goal task"); cts.Cancel(); timer.Dispose(); });
-      try
-      {
-        await WaitGoal(cts.Token);
-      }
-      catch (OperationCanceledException ce)
-      {
-        Resetup();
-      }
-      timer.Dispose();
+      await WaitGoal();
       await Task.Delay(100);
       Console.WriteLine("   Goal task end");
     }
 
-    public static async Task WaitGoal(CancellationToken ct)
+    public static async Task WaitGoal()
     {
       while (!ususama.IsReached())
       {
-        await Task.Delay(10);
-        ct.ThrowIfCancellationRequested();
+        await Task.Delay(100);
         if (button == ButtonState.Pushed) { Console.Write("   stop (goal task)"); return; }
       };
     }
@@ -209,32 +154,16 @@ namespace ususama_serial
       // buttonの状態を変更
       button = ButtonState.Pushed;
       cts_stop.Cancel();
-
-      // 送信用
-      cts = new CancellationTokenSource();
-      var timer = new System.Timers.Timer();
-      timer.Interval = 2000;
-      timer.Enabled = true;
-      timer.Elapsed += new ElapsedEventHandler((object source, ElapsedEventArgs e) => { Console.WriteLine("cancel stop task"); cts.Cancel(); });
-      try
-      {
-        await SendStopAndWait(cts.Token);
-      }
-      catch (OperationCanceledException ce)
-      {
-        Resetup();
-      }
-      timer.Dispose();
+      await SendStopAndWait();
       Console.WriteLine("   Stop task end");
     }
-    public static async Task SendStopAndWait(CancellationToken ct)
+    public static async Task SendStopAndWait()
     {
       ususama.Stop();
       while (!ususama.IsStopping())
       {
         await Task.Delay(100);
         ususama.Stop();
-        ct.ThrowIfCancellationRequested();
       };
       await Task.Delay(1000);
     }
@@ -268,16 +197,33 @@ namespace ususama_serial
       aTimer.Elapsed += OnTimedEvent;
       aTimer.AutoReset = true;
       aTimer.Enabled = true;
+      timeout_timer = new System.Timers.Timer(5000);
+      timeout_timer.Elapsed += ResetTimerOnTimedEvent;
+      timeout_timer.AutoReset = true;
+      timeout_timer.Enabled = true;
     }
 
     private static void OnTimedEvent(Object source, ElapsedEventArgs e)
     {
       ususama.ReceiveData();
-      Console.WriteLine("{0}, {1}, {2}",
-        ususama.current_pose_reply.x,
-        ususama.current_pose_reply.y,
-        ususama.current_pose_reply.theta
-      );
+    }
+    private static void ResetTimerOnTimedEvent(Object source, ElapsedEventArgs e)
+    {
+      if (!ususama.is_received)
+      {
+        Resetup();
+      }
+      ususama.is_received = false;
+    }
+
+    public static void Resetup()
+    {
+      Console.WriteLine("Connection reset");
+      aTimer.Dispose();
+      timeout_timer.Dispose();
+      ususama.CloseInterface();
+      ususama = new UsusamaController(port_name);
+      SetTimer();
     }
 
     private static void Close()

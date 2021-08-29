@@ -60,10 +60,10 @@ namespace ususama_routes
 
       // seq4: ゴミ2(仮に紙コップとする)をゴミ箱に入れるタスク
       move_seq_4.Add(new Pose2D(1200f / 1000, 450f / 1000, 3.14f, CleanState.Move)); // 後ろに下がる
-      move_seq_4.Add(new Pose2D(1200f / 1000, 450f / 1000, 2.00f, CleanState.Move)); // 紙コップに向かう
-      move_seq_4.Add(new Pose2D(1050f / 1000, 600f / 1000, 2.00f, CleanState.Move)); // 紙コップ回収のため斜め移動
-      move_seq_4.Add(new Pose2D(1050f / 1000, 600f / 1000, 2.00f, CleanState.Move)); // ゴミ箱に入れるため旋回
-      move_seq_4.Add(new Pose2D(1200f / 1000, 600f / 1000, 2.00f, CleanState.Move)); // 便器にぶつからないようにまっすぐ移動
+      move_seq_4.Add(new Pose2D(1200f / 1000, 450f / 1000, 1.57f, CleanState.Move)); // 紙コップに向かう
+      //move_seq_4.Add(new Pose2D(1050f / 1000, 600f / 1000, 1.57f, CleanState.Move)); // 紙コップ回収のため斜め移動
+      move_seq_4.Add(new Pose2D(1050f / 1000, 600f / 1000, 1.57f, CleanState.Move)); // ゴミ箱に入れるため旋回
+      //move_seq_4.Add(new Pose2D(1200f / 1000, 600f / 1000, 1.57f, CleanState.Move)); // 便器にぶつからないようにまっすぐ移動
       move_seq_4.Add(new Pose2D(1200f / 1000, 600f / 1000, 1.57f, CleanState.Move)); // ゴミ箱に向きなおす
       move_seq_4.Add(new Pose2D(1300f / 1000, 700f / 1000, 1.57f, CleanState.Move)); // ゴミ箱に紙コップを入れる
 

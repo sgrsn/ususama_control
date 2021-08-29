@@ -23,14 +23,15 @@ namespace ususama_serial
       public float theta;
     };
 
-
     public MoveReply_t move_commmand_reply;
     public CuurentPose_t current_pose_reply;
     public UsusamaProtocol.RobotState robot_state_reply;
 
     public bool stop_command_reply;
 
-    public UsusamaController(String com_port)
+    public bool is_received = false;
+
+    public UsusamaController(string com_port)
     {
       my_interface = new UsusamaSerial(com_port, 115200);
     }
@@ -43,6 +44,7 @@ namespace ususama_serial
       UsusamaProtocol.UsusamaData data_t = UsusamaProtocol.ProcessingReceivedData(buffer);
       if (data_t.valid)
       {
+        is_received = true;
         register[data_t.reg] = data_t.data;
 
         switch(data_t.reg)
@@ -52,9 +54,6 @@ namespace ususama_serial
             //Console.WriteLine("       {0}:{1}", data_t.reg, data_t.data);
             break;
           case UsusamaProtocol.REPLY_MOVE:
-            break;
-          case UsusamaProtocol.REPLY_STOP:
-            stop_command_reply = Convert.ToBoolean(data_t.data);
             break;
           case UsusamaProtocol.REPLY_COMMAND_X:
             move_commmand_reply.x = UsusamaProtocol.DecodeInt2Float(data_t.data);
@@ -156,24 +155,6 @@ namespace ususama_serial
       data_t.valid = true;
       UsusamaProtocol.SendPacketData(my_interface, data_t);
     }
-    public void _Stop()
-    {
-      UsusamaProtocol.UsusamaData data_t;
-      data_t.data = 1;
-      data_t.reg = UsusamaProtocol.COMMAND_STOP;
-      data_t.valid = true;
-      UsusamaProtocol.SendPacketData(my_interface, data_t);
-    }
-
-    // Stopを解除する
-    public void ReleaseStop()
-    {
-      UsusamaProtocol.UsusamaData data_t;
-      data_t.data = 0;
-      data_t.reg = UsusamaProtocol.COMMAND_STOP;
-      data_t.valid = true;
-      UsusamaProtocol.SendPacketData(my_interface, data_t);
-    }
 
     public void CloseInterface()
     {
@@ -191,7 +172,6 @@ namespace ususama_serial
     public const byte COMMAND_POSE_X = 0x05;
     public const byte COMMAND_POSE_Y = 0x06;
     public const byte COMMAND_POSE_THETA = 0x07;
-    public const byte COMMAND_STOP = 0x08;
     public const byte COMMAND_RESET_ODOMETRY = 0x015;
 
     public const byte REPLY_ROBOT_STATE = 0x03;
@@ -199,7 +179,6 @@ namespace ususama_serial
     public const byte REPLY_COMMAND_X = 0x05;
     public const byte REPLY_COMMAND_Y = 0x06;
     public const byte REPLY_COMMAND_THETA = 0x07;
-    public const byte REPLY_STOP = 0x08;
     public const byte REPLY_STATE_X = 0x010;
     public const byte REPLY_STATE_Y = 0x011;
     public const byte REPLY_STATE_THETA = 0x12;
@@ -346,7 +325,7 @@ namespace ususama_serial
       else
       {
         // data error
-        Console.WriteLine("data error, checksum is wrong.");
+        // Console.WriteLine("data error, checksum is wrong.");
         UsusamaData data_t;
         data_t.data = 0;
         data_t.reg = 0;
