@@ -179,9 +179,9 @@ namespace ususama_serial
     public const byte REPLY_COMMAND_X = 0x05;
     public const byte REPLY_COMMAND_Y = 0x06;
     public const byte REPLY_COMMAND_THETA = 0x07;
-    public const byte REPLY_STATE_X = 0x010;
-    public const byte REPLY_STATE_Y = 0x011;
-    public const byte REPLY_STATE_THETA = 0x12;
+    public const byte REPLY_STATE_X = 0x011;
+    public const byte REPLY_STATE_Y = 0x012;
+    public const byte REPLY_STATE_THETA = 0x13;
     public const byte REPLY_RESET_ODOMETRY = 0x15;
 
     public const byte DEBUG_CONSOLE = 0x20;

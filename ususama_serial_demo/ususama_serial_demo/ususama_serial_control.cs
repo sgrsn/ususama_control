@@ -147,7 +147,6 @@ namespace ususama_serial
         if (button == ButtonState.Pushed) { Console.Write("   stop (goal task)"); return; }
       };
     }
-
     public static async Task SendStopTask()
     {
       Console.Write("   Stop task start -> ");
