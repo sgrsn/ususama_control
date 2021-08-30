@@ -35,19 +35,15 @@ namespace ususama_serial_demo
     private async void step2_button_Click(object sender, RoutedEventArgs e) { await UsusamaManager.RunSequenceWithStop(UsusamaManager.task_routes.move_seq_2); }
     private async void step3_button_Click(object sender, RoutedEventArgs e) { await UsusamaManager.RunSequenceWithStop(UsusamaManager.task_routes.move_seq_3); }
     private async void step4_button_Click(object sender, RoutedEventArgs e) { await UsusamaManager.RunSequenceWithStop(UsusamaManager.task_routes.move_seq_4); }
-
+    private async void return_button_Click(object sender, RoutedEventArgs e) { await UsusamaManager.RunSequenceWithStop(UsusamaManager.task_routes.home_seq); }
     private void step5_button_Click(object sender, RoutedEventArgs e)
     {
       UsusamaManager.ResetOdometry();
     }
-    private async void return_button_Click(object sender, RoutedEventArgs e) { await UsusamaManager.RunSequenceWithStop(UsusamaManager.task_routes.home_seq); }
+    
     private void connect_button_Click(object sender, RoutedEventArgs e) { UsusamaManager.Setup("COM7"); }
 
     private async void stop_button_Click(object sender, RoutedEventArgs e) { await UsusamaManager.SendStopTask(); }
-
-    private void read_start_button_Click(object sender, RoutedEventArgs e)
-    {
-    }
 
     private void disconnect_button_Click(object sender, RoutedEventArgs e)
     {
@@ -55,20 +51,15 @@ namespace ususama_serial_demo
 
     private void move_button_Click(object sender, RoutedEventArgs e)
     {
-      //float x = Convert.ToSingle(x_textBox.Text);
-      //float y = Convert.ToSingle(y_textBox.Text);
-      //float theta = Convert.ToSingle(theta_textBox.Text);
-      //ususama.SendRefPose(x, y, theta);
+      float x = Convert.ToSingle(x_textBox.Text);
+      float y = Convert.ToSingle(y_textBox.Text);
+      float theta = Convert.ToSingle(theta_textBox.Text);
+      UsusamaManager.ususama.SendRefPose(x, y, theta);
     }
     private void go_button_Click(object sender, RoutedEventArgs e)
     {
-      //ususama.ReleaseStop();
-      //ususama.Move();
-    }
-
-    private void release_button_Click(object sender, RoutedEventArgs e)
-    {
       UsusamaManager.ButtonRelease();
+      UsusamaManager.ususama.Move();
     }
   }
 }

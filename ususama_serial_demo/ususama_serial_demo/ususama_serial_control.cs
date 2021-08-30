@@ -50,6 +50,7 @@ namespace ususama_serial
 
     public static async Task RunSequenceWithStop(List<Pose2D> routes)
     {
+      button = ButtonState.Released;
       cts_stop = new CancellationTokenSource();
       try
       {
