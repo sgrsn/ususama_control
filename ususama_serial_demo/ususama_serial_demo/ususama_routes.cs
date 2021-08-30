@@ -46,13 +46,6 @@ namespace ususama_routes
       move_seq_test.Add(new Pose2D(000f / 1000, 0000f / 1000, 3.14f, CleanState.Move));
       //move_seq_test.Add(new Pose2D(0000f / 1000, 0000f / 1000, 0.00f, CleanState.Move));
 
-      // seq1: ペーパ切れ端を吹き飛ばしておくタスク
-      move_seq_1.Add(new Pose2D(0000f / 1000, 000f / 1000, 0.00f, CleanState.Move)); // 
-      move_seq_1.Add(new Pose2D(1000f / 1000, 000f / 1000, 0.00f, CleanState.Move)); // まっすぐ進む 芯回収
-      move_seq_1.Add(new Pose2D(1200f / 1000, 000f / 1000, 1.57f, CleanState.Move)); // 90deg 旋回
-      move_seq_1.Add(new Pose2D(1200f / 1000, 700f / 1000, 1.57f, CleanState.Move)); // ゴミ箱に芯を入れる
-      move_seq_1.Add(new Pose2D(1200f / 1000, 000f / 1000, 1.57f, CleanState.Move)); // 戻る
-
       // seq1: ゴミ1(仮に芯とする)をゴミ箱に入れるタスク
       move_seq_1.Add(new Pose2D(0000f / 1000, 000f / 1000, 0.00f, CleanState.Move)); // 
       move_seq_1.Add(new Pose2D(1000f / 1000, 000f / 1000, 0.00f, CleanState.Move)); // まっすぐ進む 芯回収
