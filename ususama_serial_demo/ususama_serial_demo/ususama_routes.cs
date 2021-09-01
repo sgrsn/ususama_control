@@ -48,13 +48,13 @@ namespace ususama_routes
       move_seq_2.Add(new Pose2D(1200f / 1000, 150f / 1000, 1.57f, CleanState.Move)); // 水にあたらないようスライド
       move_seq_2.Add(new Pose2D(1200f / 1000, 850f / 1000, 1.57f, CleanState.Move)); // ゴミ箱に入れる
 
-      // seq2: 便器前の床、便器を掃除するタスク
+      // seq3: 便器前の床、便器を掃除するタスク
       move_seq_3.Add(new Pose2D(1200f / 1000, 450f / 1000, 1.57f, CleanState.Move)); // トイレの前に移動
       move_seq_3.Add(new Pose2D(1200f / 1000, 450f / 1000, 3.14f, CleanState.Move)); // トイレ正面となるように旋回
 
       // ここで床掃除、便器掃除
 
-      // seq3: ゴミ2(仮に紙コップとする)をゴミ箱に入れるタスク
+      // seq4: ゴミ2(仮に紙コップとする)をゴミ箱に入れるタスク
       move_seq_4.Add(new Pose2D(1200f / 1000, 450f / 1000, 3.14f, CleanState.Move)); // 近づく
       move_seq_4.Add(new Pose2D(1200f / 1000, 450f / 1000, 2.50f, CleanState.Move)); // 紙コップに向きを変更
       move_seq_4.Add(new Pose2D( 950f / 1000, 780f / 1000, 2.50f, CleanState.Move)); // 紙コップ回収
