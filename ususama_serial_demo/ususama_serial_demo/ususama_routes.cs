@@ -39,8 +39,13 @@ namespace ususama_routes
     {
       // seq1: ゴミ1(仮に芯とする)をゴミ箱に入れるタスク
       move_seq_1.Add(new Pose2D(0000f / 1000, 000f / 1000, 0.00f, CleanState.Move)); // ホームポジション
-      move_seq_1.Add(new Pose2D(1050f / 1000, 000f / 1000, 0.00f, CleanState.Move)); // まっすぐ進む 芯回収
-      move_seq_1.Add(new Pose2D(1050f / 1000, 000f / 1000, 1.57f, CleanState.Move)); // 90deg 旋回
+      move_seq_1.Add(new Pose2D(1250f / 1000, 000f / 1000, 0.00f, CleanState.Move)); // まっすぐ進む 芯回収
+      move_seq_1.Add(new Pose2D(1250f / 1000, 000f / 1000, 1.57f, CleanState.Move)); // 90deg 旋回
+
+      // seq1: ゴミ1(仮に芯とする)をゴミ箱に入れるタスク
+      move_seq_1.Add(new Pose2D(0000f / 1000, 000f / 1000, 0.00f, CleanState.Move)); // ホームポジション
+      move_seq_1.Add(new Pose2D(1250f / 1000, 000f / 1000, 0.00f, CleanState.Move)); // まっすぐ進む 芯回収
+      move_seq_1.Add(new Pose2D(1250f / 1000, 000f / 1000, 1.57f, CleanState.Move)); // 90deg 旋回
 
       // ここでファンをオン
 
@@ -58,7 +63,7 @@ namespace ususama_routes
       move_seq_4.Add(new Pose2D(1200f / 1000, 450f / 1000, 3.14f, CleanState.Move)); // 近づく
       move_seq_4.Add(new Pose2D(1200f / 1000, 450f / 1000, 2.50f, CleanState.Move)); // 紙コップに向きを変更
       move_seq_4.Add(new Pose2D( 950f / 1000, 780f / 1000, 2.50f, CleanState.Move)); // 紙コップ回収
-      move_seq_4.Add(new Pose2D( 950f / 1000, 780f / 1000, 1.57f, CleanState.Move)); // 紙コップ移動
+      move_seq_4.Add(new Pose2D( 950f / 1000, 780f / 1000, 1.57f, CleanState.Move)); // 姿勢をゴミ箱に垂直に変更
       move_seq_4.Add(new Pose2D(1200f / 1000, 650f / 1000, 1.57f, CleanState.Move)); // 紙コップ横移動
       move_seq_4.Add(new Pose2D(1200f / 1000, 750f / 1000, 1.57f, CleanState.Move)); // 紙コップゴミ箱に入れる
       move_seq_4.Add(new Pose2D(1200f / 1000, 450f / 1000, 1.57f, CleanState.Move)); // 戻る

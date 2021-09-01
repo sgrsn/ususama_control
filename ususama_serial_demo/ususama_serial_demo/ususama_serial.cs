@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO.Ports;
+using System.Management;
 
 namespace ususama_serial
 {
@@ -31,9 +32,49 @@ namespace ususama_serial
 
     public bool is_received = false;
 
-    public UsusamaController(string com_port)
+    public UsusamaController(string PortOrDeviceName)
     {
-      my_interface = new UsusamaSerial(com_port, 115200);
+      my_interface = new UsusamaSerial(GetPortName(PortOrDeviceName), 115200);
+    }
+
+    private static string GetPortName(string PortOrDeviceName)
+{
+      System.Collections.ArrayList deviceNameList = new System.Collections.ArrayList();
+      System.Text.RegularExpressions.Regex check = new System.Text.RegularExpressions.Regex("(COM[1-9][0-9]?)"); // COM[1-9][0-9]?[0-9]?​
+      ManagementClass mcPnPEntity = new ManagementClass("Win32_PnPEntity");
+      ManagementObjectCollection manageObjCol = mcPnPEntity.GetInstances();
+      foreach (ManagementObject manageObj in manageObjCol)
+      {
+        var namePropertyValue = manageObj.GetPropertyValue("Name");
+        if (namePropertyValue == null)
+        {
+          continue;
+        }
+        string name = namePropertyValue.ToString();
+        if (check.IsMatch(name))
+        {
+          if (name.Contains(PortOrDeviceName) || PortOrDeviceName == "any")
+          {
+            return "COM" + System.Text.RegularExpressions.Regex.Match(name, @"\d+").Value;
+          }
+          else
+          {
+            deviceNameList.Add(name);
+          }
+        }
+      }
+      if (0 < deviceNameList.Count)
+      {
+        foreach (var name in deviceNameList)
+        {
+          Console.WriteLine(name.ToString());
+        }
+      }
+      else
+      {
+        Console.WriteLine("No serial device found");
+      }
+      return null;
     }
 
     // 推奨:タイマ割り込みなどで一定時間ごとに呼び出すこと
