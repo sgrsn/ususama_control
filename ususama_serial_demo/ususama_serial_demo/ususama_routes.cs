@@ -47,11 +47,11 @@ namespace ususama_routes
       move_seq_1.Add(new Pose2D(1050f / 1000, 000f / 1000, 1.57f, CleanState.Move)); // スライド
       move_seq_1.Add(new Pose2D(1050f / 1000, 200f / 1000, 1.57f, CleanState.Move)); // ちょっと進む
       move_seq_1.Add(new Pose2D(1050f / 1000, 000f / 1000, 1.57f, CleanState.Move)); // 戻ってくる
-      move_seq_1.Add(new Pose2D(1200f / 1000, 000f / 1000, 1.57f, CleanState.Move)); // スライド
+      move_seq_1.Add(new Pose2D(1260f / 1000, 000f / 1000, 1.57f, CleanState.Move)); // スライド
 
       // seq3: 便器前の床、便器を掃除するタスク
-      move_seq_3.Add(new Pose2D(1200f / 1000, 450f / 1000, 1.57f, CleanState.Move)); // トイレの前に移動
-      move_seq_3.Add(new Pose2D(1200f / 1000, 450f / 1000, 3.14f, CleanState.Move)); // トイレ正面となるように旋回
+      move_seq_3.Add(new Pose2D(1260f / 1000, 450f / 1000, 1.57f, CleanState.Move)); // トイレの前に移動
+      move_seq_3.Add(new Pose2D(1260f / 1000, 450f / 1000, 3.14f, CleanState.Move)); // トイレ正面となるように旋回
 
       // ここで床掃除、便器掃除
 
