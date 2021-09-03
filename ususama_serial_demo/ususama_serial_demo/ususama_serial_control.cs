@@ -22,7 +22,7 @@ namespace ususama_serial
     private static System.Timers.Timer aTimer;
     private static System.Timers.Timer timeout_timer;
     public static UsusamaRoutes task_routes = new UsusamaRoutes();
-    private static bool current_seq_completed = false;
+    private static bool current_seq_completed = true;
     private static string port_name = "";
 
     // 停止ボタンが押されたときにOperationCanceledExceptionを発生させるCTS
